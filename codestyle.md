@@ -2,7 +2,7 @@
 
 ### Именование
 
-Имена **типов** (**class**, **struct**, **enum**, **enum class**, **union**, **typedef**, **using** for types) и **концептов** пишутся в CamelCase.
+Имена **типов** (**class**, **struct**, **enum**, **enum class**, **union**, **typedef**, **using**) и **концептов** пишутся в CamelCase.
 
 Имена **методов** и **функций** пишутся в camelCase.
 
