@@ -1,6 +1,8 @@
 Метапрограммирование на C++
 ============================
 
+[Задания](https://github.com/raid-7/mipt-metaprogramming-2020/tree/master/tasks)
+
 [Записи семинаров](https://www.youtube.com/playlist?list=PLAfOs9SaH1wzqoWM2U2k_sK1P0VQmWt-U)
 
 [Code style](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/codestyle.md)
