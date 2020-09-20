@@ -54,16 +54,16 @@ void checkWithStrings() {
     >;
 
     std::shared_ptr<Animal> dog{new Dog()};
-    std::shared_ptr<Animal> stBernard{new StBernard()};
+    std::shared_ptr<Animal> st_bernard{new StBernard()};
     std::shared_ptr<Animal> cow{new Cow()};
     std::shared_ptr<Animal> cat{new Cat()};
-    std::shared_ptr<Animal> raceHorse{new RaceHorse()};
+    std::shared_ptr<Animal> race_horse{new RaceHorse()};
 
     ensure(nullopt, MyMapper::map(*cow));
     ensure(eq, *MyMapper::map(*cat), "Meow"sv);
     ensure(eq, *MyMapper::map(*dog), "Bark"sv);
-    ensure(eq, *MyMapper::map(*stBernard), "Baaark"sv);
-    ensure(eq, *MyMapper::map(*raceHorse), "Neigh"sv);
+    ensure(eq, *MyMapper::map(*st_bernard), "Baaark"sv);
+    ensure(eq, *MyMapper::map(*race_horse), "Neigh"sv);
 }
 
 int main() {
