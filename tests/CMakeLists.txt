@@ -29,6 +29,17 @@ if(NOT IS_DIRECTORY "${SOLUTION_PATH}")
     message(FATAL_ERROR "No such directory")
 endif()
 
+# --------------------
+
+function (make_test name)
+    add_executable("${name}" ${ARGN})
+    add_test(NAME "${name}" COMMAND "${name}")
+endfunction()
+
+# --------------------
+
 message(STATUS "Building tests for ${TASK_NAME}")
+
+enable_testing()
 include_directories("include" "${SOLUTION_PATH}")
 add_subdirectory("${TASK_NAME}")

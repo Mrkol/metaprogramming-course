@@ -11,6 +11,5 @@ cd build
 
 cmake -DREPOSITORY_PATH=/path/to/your/solutions -DTASK=1 ..
 cmake --build .
-task1/main
+ctest --verbose
 ```
-
