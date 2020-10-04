@@ -13,6 +13,10 @@
 
 [Лекция 2: шаблоны и концепты](https://docs.google.com/presentation/d/1oDn6gp9TxHIjqKftlpO6orDvDW98qmtK46iuXKvq89E/edit?usp=sharing)
 
+[Лекция 3: списки типов](https://docs.google.com/presentation/d/14Nmqd0SsqBKP1eLZqNvHlRukzeVVuslJKboUBTtihMY/edit?usp=sharing)
+
+[Лекция 4: концепты стандартной библиотеки](https://docs.google.com/presentation/d/1cyvd9ZEe7mHY4iGzKCkycbelBgev8MirizIYYYKnVrk/edit?usp=sharing)
+
 ## Полезные ссылки
 
 [refactoring.guru](http://refactoring.guru/) &mdash; сайт про паттерны и рефакторинг
