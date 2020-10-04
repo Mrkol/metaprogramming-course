@@ -6,9 +6,9 @@
 #include <optional>
 
 
-#define ensure(type, ...) detail::assert_##type(__FILE__, __LINE__, __VA_ARGS__)
+#define ensure(type, ...) mpg::detail::assert_##type(__FILE__, __LINE__, __VA_ARGS__)
 
-namespace detail {
+namespace mpg::detail {
 
 void fail(const char* file, size_t line) {
     std::cerr << "Assertion failed: file \"" << file << "\", line " << line << std::endl;
