@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(REPOSITORY_PATH "" CACHE STRING "Path to the root of solution repository")
 set(TASK "" CACHE STRING "Task id")
+option(NOCOMPILE "Build `nocompile` tests instead of normal ones; `nocompile` tests must not compile" OFF)
 
 
 if (TASK GREATER 0)
