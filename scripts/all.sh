@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 set -e
-
-TASK=$1
 cd "$(dirname "$(readlink -f "$0")")"
 source util.sh
+
+TASK=$1
+shift 1
 
 BRANCH=task"$TASK"
 
@@ -23,7 +24,7 @@ cat students.txt | while read repo; do
             echo ">>> Testing repository $repo"
 
             set +e
-            ./test.sh "$repo" "$TASK" > $MOUT 2> $MERR
+            ./test.sh -i$ID $@ "$repo" "$TASK" > $MOUT 2> $MERR
             STATUS=$?
             set -e
 
