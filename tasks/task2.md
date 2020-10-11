@@ -1,0 +1,82 @@
+Задача 2. Перечисляем перечислители
+========================
+
+## Подготовка
+
+Убедитесь, что вы используете GCC или Clang последней стабильной версии. Более старые версии скорее всего тоже подойдут, но я не проверял.
+
+Вспомните, что такое [scoped и unscoped перечисления](https://en.cppreference.com/w/cpp/language/enum) и их внутренние типы.
+
+Поэкспериментируйте с содержимым встроенной переменной [\_\_PRETTY_FUNCTION\_\_](https://gcc.gnu.org/onlinedocs/gcc/Function-Names.html) в шаблонных функциях. Попробуйте сделать какой-нибудь enum одним из нетиповых шаблонных параметров.
+
+Обратите внимание, что все методы `std::string_view` объявлены `constexpr`.
+
+## Задача
+
+Реализуйте шаблонный класс `EnumeratorTraits` со следующими шаблонными параметрами и публичными методами:
+
+```cpp
+template <class Enum, size_t MAXN=512>
+	requires std::is_enum_v<Enum>
+struct EnumeratorTraits {
+    static constexpr size_t size() noexcept;
+    static constexpr Enum at(size_t i) noexcept;
+    static constexpr std::string_view nameAt(size_t i) noexcept;
+};
+```
+
+Пусть `Enum` &mdash; это scoped или unscoped перечисление. Значением перечислителя `e` типа `Enum` будем называть `static_cast<std::underlying_type_t<Enum>>(e)`.
+
+- `size()` возвращает количество перечислителей `Enum`,
+- `at(i)` возвращает i-й перечислитель в порядке возрастания их значений,
+- `nameAt(i)` возвращает имя i-го перечислителя в порядке возрастания их значений.
+
+**Гарантируется, что**
+
+- для unscoped перечислений внутренний тип задан явно,
+- значение любого перечислителя по модулю не превышает `MAXN`,
+- аргумент функций `nameAt`, `at` лежит в диапазоне от `0` до `size() - 1` включительно.
+
+В противном случае поведение не определено.
+
+**Требования к асимптотике**
+
+- Функции `size`, `at`, `nameAt` должны работать за константное относительно `MAXN` и числа перечислителей время.
+- Выделяемая при инстанцировании память может зависеть от `MAXN` линейно.
+- Требований на время компиляции при инстанцировании нет.
+
+Для `MAXN <= 512` ваш код должен компилироваться последними стабильными версиями Clang и GCC без указания флагов, контролирующих глубину рекурсии шаблонов и constexpr функций, а также число шагов при вычислении constexpr функций.
+
+## Пример
+
+```cpp
+enum Fruit : unsigned short {
+    APPLE, MELON
+};
+
+enum class Shape {
+    SQUARE, CIRCLE = 5, LINE, POINT = -2
+};
+
+static_assert(EnumeratorTraits<Shape>::size() == 4);
+static_assert(EnumeratorTraits<Fruit>::size() == 2);
+
+static_assert(EnumeratorTraits<Fruit>::nameAt(0) == "APPLE");
+static_assert(EnumeratorTraits<Fruit>::nameAt(1) == "MELON");
+
+static_assert(EnumeratorTraits<Shape>::at(0) == Shape::POINT);
+static_assert(EnumeratorTraits<Shape>::at(1) == Shape::SQUARE);
+static_assert(EnumeratorTraits<Shape>::at(3) == Shape::LINE);
+```
+
+## Формальности
+
+**Дедлайн:** 09:00 02.11.2020.
+
+**Баллы:** 4 уе.
+
+Класс `EnumeratorTraits` должен быть доступен в глобальном неймспейсе при подключении заголовочного файла `enum_traits.hpp`. Этот заголовочный файл должен находиться в папке `task2`, расположенной в корне репозитория.
+
+Код пушьте в ветку `task2` и делайте pull request в `master`.
+
+Используйте всю мощь стандартной библиотеки, включая type traits и библиотеку концептов, если потребуется.
