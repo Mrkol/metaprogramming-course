@@ -9,6 +9,8 @@ shift 1
 
 BRANCH=task"$TASK"
 
+mkdir -p solutions
+
 cat students.txt | while read repo; do
     if [[ -z "$repo" ]]; then
         continue
