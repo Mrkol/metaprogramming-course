@@ -21,3 +21,4 @@
 
 [Задача 1. Звуки природы.](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/tasks/task1.md)
 
+[Залача 2. Перечисляем перечислители.](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/tasks/task2.md)

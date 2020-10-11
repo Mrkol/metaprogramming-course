@@ -17,6 +17,8 @@
 
 [Лекция 4: концепты стандартной библиотеки](https://docs.google.com/presentation/d/1cyvd9ZEe7mHY4iGzKCkycbelBgev8MirizIYYYKnVrk/edit?usp=sharing)
 
+[Лекция 5: ranges](https://docs.google.com/presentation/d/1jk4hw_DQbq8hqjwAmqPjWRjvBDrd3Lv2t0I3Cx2uf_c/edit?usp=sharing)
+
 ## Полезные ссылки
 
 [refactoring.guru](http://refactoring.guru/) &mdash; сайт про паттерны и рефакторинг
