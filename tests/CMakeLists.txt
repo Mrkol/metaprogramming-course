@@ -42,5 +42,6 @@ endfunction()
 message(STATUS "Building tests for ${TASK_NAME}")
 
 enable_testing()
+add_compile_options(-Wall -Wextra)
 include_directories("include" "${SOLUTION_PATH}")
 add_subdirectory("${TASK_NAME}")
