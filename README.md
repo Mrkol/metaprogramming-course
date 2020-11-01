@@ -19,6 +19,10 @@
 
 [Лекция 5: ranges](https://docs.google.com/presentation/d/1jk4hw_DQbq8hqjwAmqPjWRjvBDrd3Lv2t0I3Cx2uf_c/edit?usp=sharing)
 
+[Лекция 7: генерация иерархий и умные указатели](https://docs.google.com/presentation/d/17ap3FGLf-rxpIzzsw8YzRVMznM_ensDiOPcejetoAfw/edit?usp=sharing)
+
+[Лекция 8: вызываемые сущности](https://docs.google.com/presentation/d/15-HNYvMjgG_-rPswPppKjyseZpnqIPGonq4R8GCUs6s/edit?usp=sharing)
+
 ## Полезные ссылки
 
 [refactoring.guru](http://refactoring.guru/) &mdash; сайт про паттерны и рефакторинг
@@ -26,3 +30,12 @@
 [Concepts and constraints](https://en.cppreference.com/w/cpp/language/constraints) &mdash; cppreference
 
 [Концепты: упрощаем реализацию классов std utility](https://youtu.be/udTEfwCkmaw) &mdash; доклад Андрея Давыдова
+
+[Метапрограммирование, щадящее компилятор](https://www.youtube.com/watch?v=udTEfwCkmaw) &mdash; доклад Андрея Давыдова
+
+Building Range Adaptors ([part 1](https://www.youtube.com/watch?v=YWayW5ePpkY), [part 2](https://www.youtube.com/watch?v=g-F280_AQp8)) &mdash; Chris Di Bella, CppCon
+
+[Move only folly::Function](https://youtu.be/SToaMS3jNH0) &mdash; Sven Over, CppCon
+
+[Inplace std::function alternative for audio processing](https://youtu.be/VY83afAJUIg) &mdash; Tom Poole, CppCon
+
