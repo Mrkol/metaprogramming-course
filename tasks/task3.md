@@ -27,7 +27,7 @@ public:
      *   default constructor
      *   copy and move construction
      *   copy and move assignment
-     *   comparisons
+     *   equality operators
      *   destructor
     */
 
