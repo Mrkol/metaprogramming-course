@@ -23,6 +23,10 @@
 
 [Лекция 8: вызываемые сущности](https://docs.google.com/presentation/d/15-HNYvMjgG_-rPswPppKjyseZpnqIPGonq4R8GCUs6s/edit?usp=sharing)
 
+[Лекция 9: const-correctness std::function, мультиметоды](https://docs.google.com/presentation/d/15n_FpR72731XVCIwS-is7-C_Jhafmu5At_otETQjtMA/edit?usp=sharing)
+
+[Лекция 10: three-way comparison, POD type reflection](https://docs.google.com/presentation/d/1O2GBwFL_Qf_-ihzn17B20bM8-wlG4e8SOxXPnYr3rCM/edit?usp=sharing)
+
 ## Полезные ссылки
 
 [refactoring.guru](http://refactoring.guru/) &mdash; сайт про паттерны и рефакторинг
@@ -38,4 +42,6 @@ Building Range Adaptors ([part 1](https://www.youtube.com/watch?v=YWayW5ePpkY), 
 [Move only folly::Function](https://youtu.be/SToaMS3jNH0) &mdash; Sven Over, CppCon
 
 [Inplace std::function alternative for audio processing](https://youtu.be/VY83afAJUIg) &mdash; Tom Poole, CppCon
+
+[C++14 Reflections Without Macros, Markup nor External Tooling](https://youtu.be/abdeAew3gmQ) &mdash; Антон Полухин, CppCon
 
