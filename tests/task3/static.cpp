@@ -63,7 +63,7 @@ void checkLoggerSafety() {
     static_assert(!ProperSpyLogger<EmptyLogger<bad_destructor_opt>, Operations<copyable_opt>>);
 
     static_assert(ProperSpyLogger<EmptyLogger<move_only_opt>, Operations<move_only_opt>>);
-    static_assert(!ProperSpyLogger<EmptyLogger<copyable_opt>, Operations<move_only_opt>>);
+    static_assert(ProperSpyLogger<EmptyLogger<copyable_opt>, Operations<move_only_opt>>);
     static_assert(!ProperSpyLogger<EmptyLogger<bad_destructor_opt>, Operations<move_only_opt>>);
 }
 
