@@ -27,6 +27,8 @@
 
 [Лекция 10: three-way comparison, POD type reflection](https://docs.google.com/presentation/d/1O2GBwFL_Qf_-ihzn17B20bM8-wlG4e8SOxXPnYr3rCM/edit?usp=sharing)
 
+[Лекция 11: POD type reflection](https://docs.google.com/presentation/d/1DHkmbyjYLiU8-Qgp5NclhDNPcb5fViN29fEWZx7YFoI/edit?usp=sharing)
+
 ## Полезные ссылки
 
 [refactoring.guru](http://refactoring.guru/) &mdash; сайт про паттерны и рефакторинг
