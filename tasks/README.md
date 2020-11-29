@@ -25,3 +25,4 @@
 
 [Задача 3. Очень умный неуказатель.](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/tasks/task3.md)
 
+[Задача 4. Annotation processing](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/tasks/task4.md)
