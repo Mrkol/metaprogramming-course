@@ -91,15 +91,13 @@ struct /* unspecified (field descriptor) */ {
 
 `has_annotation_class<Annotation>` истинен, когда среди аннотаций поля есть `Annotation`.
 
-`FindAnnotation<AnnotationTemplate>` &mdash; инстанс `AnnotationTemplate` с теми параметрами, с которыми он встречается в списке аннотаций поля. Если `AnnotationTemplate` встречается несколько раз, `FindAnnotation` равен любому из подходящиз инстансов. Если среди аннотаций нет `AnnotationTemplate`, использование `FindAnnotation<AnnotationTemplate>` должно приводить к substitution failure.
+`FindAnnotation<AnnotationTemplate>` &mdash; инстанс `AnnotationTemplate` с теми параметрами, с которыми он встречается в списке аннотаций поля. Если `AnnotationTemplate` встречается несколько раз, `FindAnnotation` &mdash; любой из подходящиз инстансов. Если среди аннотаций нет `AnnotationTemplate`, использование `FindAnnotation<AnnotationTemplate>` должно приводить к substitution failure.
 
 Для определения количества и типов полей используйте любую подходящую технику. Реализацию можно подсмотреть в [презентации](https://docs.google.com/presentation/d/1DHkmbyjYLiU8-Qgp5NclhDNPcb5fViN29fEWZx7YFoI/edit?usp=sharing) или в [Boost.PFR](https://github.com/apolukhin/magic_get). (Только не копипастите из Boost.PFR, пожалуйста. Там как минимум code style не совместим с нашим.) Получать значения полей или ссылки на них в данной задаче не требуется.
 
 ### Ограничения на поддерживаемые структуры
 
 В качестве шаблонного аргумента `Describe` могут использоваться только классы, удовлетворяющее слелующим условиям:
-
-Рассмотрим классы, которые удовлетворяют следующим требованиям:
 
 - не юнионы,
 - нет пользовательских конструкторов и деструкторов,
