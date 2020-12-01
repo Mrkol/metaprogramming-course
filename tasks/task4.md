@@ -138,14 +138,14 @@ struct S {
     int x; // no annotation
 
     mpg_annotate(Transient, NoIo)
-    char y; // annotated with Transient
+    char y; // annotated with Transient, NoIo
 
     mpg_annotate(Transient)
     mpg_annotate(NoCompare)
     float z; // annotated with Transient, NoCompare
 
     mpg_annotate(NoIo, Checksum<Crc32>)
-    uint64_t w; // annotated with Transient, NoCompare
+    uint64_t w; // annotated with NoIo, Checksum<Crc32>
 };
 
 
