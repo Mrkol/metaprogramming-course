@@ -17,6 +17,10 @@
 
 Может оказаться, что я неправильно оценил сложность какой-то задачи в сравнении с другими, и вам покажется, что она должна стоить больше или меньше. Можем это обсудить и изменить стоимость.
 
+## Конвертация баллов в оценку
+
+![Marks](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/tasks/marks.png)
+
 ## Задачи
 
 [Задача 1. Звуки природы.](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/tasks/task1.md)
