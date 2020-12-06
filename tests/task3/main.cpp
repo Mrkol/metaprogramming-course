@@ -163,6 +163,23 @@ void testMovable() {
     ensure(eq, checker.pollValues(), std::vector<unsigned int>{ 1 });
 }
 
+template <size_t pad_size = 0>
+void testLvalueLogger() {
+    using mpg::detail::LoggerChecker;
+    using mpg::detail::Counter;
+    constexpr auto semiregular_opt = mpg::Enable{};
+
+    auto s = Spy<Counter<semiregular_opt>>{};
+
+    LoggerChecker<semiregular_opt, pad_size> checker;
+    auto logger = checker.getLogger();
+    s.setLogger(logger);
+    ensure(eq, checker.pollValues(), std::vector<unsigned int>{});
+
+    s->x = 0;
+    s->isPositive() && s->x--;
+    ensure(eq, checker.pollValues(), std::vector<unsigned int>{1, 1});
+}
 
 int main() {
     testCopyable(); // will likely trigger SBO
@@ -170,6 +187,9 @@ int main() {
 
     testMovable(); // will likely trigger SBO
     testMovable<256>(); // will likely not trigger SBO
+
+    testLvalueLogger(); // will likely trigger SBO
+    testLvalueLogger<256>(); // will likely not trigger SBO
 
     return 0;
 }
