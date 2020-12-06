@@ -151,7 +151,7 @@ static_assert(!std::copyable<decltype(t)>);
   ```sh
   ASAN=ON cmake -DREPOSITORY_PATH=/path/to/your/solutions -DTASK=3 ..
   ```
-Этот вариант также работает со [скриптами](https://github.com/raid-7/mipt-metaprogramming-2020/tree/master/scripts).
+  Этот вариант также работает со [скриптами](https://github.com/raid-7/mipt-metaprogramming-2020/tree/master/scripts).
 
 Требуется cmake версии 3.13 или выше.
 
