@@ -137,3 +137,21 @@ static_assert(!std::copyable<decltype(t)>);
 Используйте всю мощь стандартной библиотеки, кроме `std::function`.
 
 Отвечать на вопросы для размышлений необязательно.
+
+## Тесты
+
+Тесты этого задания можно собрать с address sanitizer'ом. Для этого нужно
+
+* либо указать флаг `-DASAN=ON` в команде cmake,
+  ```sh
+  cmake -DREPOSITORY_PATH=/path/to/your/solutions -DTASK=3 -DASAN=ON ..
+  ```
+
+* либо установить переменную окружения `ASAN=ON` перед запуском cmake.
+  ```sh
+  ASAN=ON cmake -DREPOSITORY_PATH=/path/to/your/solutions -DTASK=3 ..
+  ```
+Этот вариант также работает со [скриптами](https://github.com/raid-7/mipt-metaprogramming-2020/tree/master/scripts).
+
+Требуется cmake версии 3.13 или выше.
+

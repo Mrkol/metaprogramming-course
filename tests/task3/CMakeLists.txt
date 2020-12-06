@@ -1,6 +1,19 @@
+option(ASAN "Build with address sanitizer" OFF)
+if (DEFINED ENV{ASAN})
+    set(ASAN_ENABLED "$ENV{ASAN}")
+else()
+    set(ASAN_ENABLED "${ASAN}")
+endif()
+
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     make_test(main main.cpp)
     target_compile_options(main PRIVATE "-Wno-unused-value")
+
+    if (ASAN_ENABLED)
+        message(STATUS "Using address sanitizer")
+        target_compile_options(main PRIVATE "-fsanitize=address")
+        target_link_options(main PRIVATE "-fsanitize=address")
+    endif()
 
     make_test(static static.cpp)
 else()
