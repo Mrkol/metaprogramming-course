@@ -139,10 +139,57 @@ void checkMatching() {
     static_assert(std::is_same_v<YDescriptor::FindAnnotation<SerialId>, SerialId<SizeT<4>>>);
 }
 
+void checkUserDefined() {
+    struct UserDefined {};
+    struct S4 {
+        UserDefined x;
+    };
+
+    static_assert(Describe<S4>::num_fields == 1);
+    static_assert(std::is_same_v<Describe<S4>::Field<0>::Type, UserDefined>);
+}
+
+void checkMultiple() {
+    using namespace mpg::annotations;
+
+    struct S5 {
+        mpg_annotate(SerialId<SizeT<0>>, SerialId<SizeT<1>>)
+        mpg_annotate(SerialId<SizeT<1>>, SerialId<SizeT<2>>)
+        mpg_annotate(SerialId<SizeT<2>>, SerialId<SizeT<3>>)
+        mpg_annotate(SerialId<SizeT<3>>, SerialId<SizeT<4>>)
+        mpg_annotate(SerialId<SizeT<4>>, SerialId<SizeT<5>>)
+        int x;
+    };
+
+    static_assert(Describe<S5>::num_fields == 1);
+    static_assert(std::is_same_v<Describe<S5>::Field<0>::Type, int>);
+
+    using ExpectedAnnotations = Annotate<
+        SerialId<SizeT<0>>,
+        SerialId<SizeT<1>>, SerialId<SizeT<1>>,
+        SerialId<SizeT<2>>, SerialId<SizeT<2>>,
+        SerialId<SizeT<3>>, SerialId<SizeT<3>>,
+        SerialId<SizeT<4>>, SerialId<SizeT<4>>,
+        SerialId<SizeT<5>>
+    >;
+    static_assert(std::is_same_v<Describe<S5>::Field<0>::Annotations, ExpectedAnnotations>);
+
+    static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<0>>>);
+    static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<1>>>);
+    static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<2>>>);
+    static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<3>>>);
+    static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<4>>>);
+    static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<5>>>);
+    static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<0>>>);
+    static_assert(Describe<S5>::Field<0>::has_annotation_template<SerialId>);
+}
+
 int main() {
     checkEmpty();
     checkReflection();
     checkLookup();
     checkMatching();
+    checkUserDefined();
+    checkMultiple();
     return 0;
 }
