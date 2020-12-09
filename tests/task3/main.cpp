@@ -92,7 +92,7 @@ void testCopyable() {
     s->x++;
     ensure(eq, checker.pollValues(), std::vector<unsigned int>{1});
 
-    // what about copy assignment?
+    // what about move assignment?
     s = Spy { Counter<semiregular_opt>{} }; // no logger
     s->x++;
     ensure(eq, checker.pollValues(), std::vector<unsigned int>{});
@@ -122,6 +122,11 @@ void testCopyable() {
 
     (s2 = std::move(s2))->x++;
     ensure(eq, another_checker.pollValues(), std::vector<unsigned int>{ 1 });
+
+    auto s3 = Spy { Counter<semiregular_opt>{} }; // no logger
+    s2 = s3; // copy assignment
+    s2->x++;
+    ensure(eq, another_checker.pollValues(), std::vector<unsigned int>{});
 }
 
 template <size_t pad_size = 0>
@@ -181,6 +186,19 @@ void testLvalueLogger() {
     ensure(eq, checker.pollValues(), std::vector<unsigned int>{1, 1});
 }
 
+
+void logFunction(unsigned int) {}
+
+void testFunctionPointer() {
+    using mpg::detail::LoggerChecker;
+    using mpg::detail::Counter;
+    constexpr auto semiregular_opt = mpg::Enable{};
+
+    auto s = Spy<Counter<semiregular_opt>>{};
+    s.setLogger(&logFunction);
+    s->x++;
+}
+
 int main() {
     testCopyable(); // will likely trigger SBO
     testCopyable<256>(); // will likely not trigger SBO
@@ -190,6 +208,8 @@ int main() {
 
     testLvalueLogger(); // will likely trigger SBO
     testLvalueLogger<256>(); // will likely not trigger SBO
+
+    testFunctionPointer();
 
     return 0;
 }
