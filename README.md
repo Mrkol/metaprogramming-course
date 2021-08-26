@@ -3,31 +3,9 @@
 
 [Задания](https://github.com/raid-7/mipt-metaprogramming-2020/tree/master/tasks)
 
-[Записи семинаров](https://www.youtube.com/playlist?list=PLAfOs9SaH1wzqoWM2U2k_sK1P0VQmWt-U)
-
 [Code style](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/codestyle.md)
 
 #### Слайды
-
-[Леция 1: паттерны проектирования](https://docs.google.com/presentation/d/12vY1jGIsldtuu-5AXqOUnO-VHTD6Hq5WqrE75iFAlZA/edit?usp=sharing)
-
-[Лекция 2: шаблоны и концепты](https://docs.google.com/presentation/d/1oDn6gp9TxHIjqKftlpO6orDvDW98qmtK46iuXKvq89E/edit?usp=sharing)
-
-[Лекция 3: списки типов](https://docs.google.com/presentation/d/14Nmqd0SsqBKP1eLZqNvHlRukzeVVuslJKboUBTtihMY/edit?usp=sharing)
-
-[Лекция 4: концепты стандартной библиотеки](https://docs.google.com/presentation/d/1cyvd9ZEe7mHY4iGzKCkycbelBgev8MirizIYYYKnVrk/edit?usp=sharing)
-
-[Лекция 5: ranges](https://docs.google.com/presentation/d/1jk4hw_DQbq8hqjwAmqPjWRjvBDrd3Lv2t0I3Cx2uf_c/edit?usp=sharing)
-
-[Лекция 7: генерация иерархий и умные указатели](https://docs.google.com/presentation/d/17ap3FGLf-rxpIzzsw8YzRVMznM_ensDiOPcejetoAfw/edit?usp=sharing)
-
-[Лекция 8: вызываемые сущности](https://docs.google.com/presentation/d/15-HNYvMjgG_-rPswPppKjyseZpnqIPGonq4R8GCUs6s/edit?usp=sharing)
-
-[Лекция 9: const-correctness std::function, мультиметоды](https://docs.google.com/presentation/d/15n_FpR72731XVCIwS-is7-C_Jhafmu5At_otETQjtMA/edit?usp=sharing)
-
-[Лекция 10: three-way comparison, POD type reflection](https://docs.google.com/presentation/d/1O2GBwFL_Qf_-ihzn17B20bM8-wlG4e8SOxXPnYr3rCM/edit?usp=sharing)
-
-[Лекция 11: POD type reflection](https://docs.google.com/presentation/d/1DHkmbyjYLiU8-Qgp5NclhDNPcb5fViN29fEWZx7YFoI/edit?usp=sharing)
 
 ## Полезные ссылки
 
@@ -47,3 +25,8 @@ Building Range Adaptors ([part 1](https://www.youtube.com/watch?v=YWayW5ePpkY), 
 
 [C++14 Reflections Without Macros, Markup nor External Tooling](https://youtu.be/abdeAew3gmQ) &mdash; Антон Полухин, CppCon
 
+## Полезные книжки
+
+Andrei Alexandrescu, "Modern C++ Design: Generic Programming and Design Patterns Applied" &mdash; слегка устаревшая классика
+
+David Vandevoorde, Nicolai M. Josuttis, Douglas Gregor, "C++ Templates: The Complete Guide (2nd ed.)" &mdash; всё, что нужно знать о шаблонах в C++17
