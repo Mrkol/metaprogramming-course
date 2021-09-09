@@ -10,26 +10,26 @@
 
 1. Templates. Templateable entities, kinds, metafunctions
 2. Template debugging. Dependent false assertion, tracers, archetypes
-3. Name resolution, two-phase lookup, dependent names
+3. Name resolution, two-phase lookup, dependent names 
 4. Type deduction. Template arguments, auto, deduction guides
 5. Perfect forwarding. Unversal references, argument forwarding, result forwarding, decltype(auto)
 6. Friends, Barton–Nackman trick
 7. Concepts, requirements
-8. Stateful metaprogramming with friends (6)
+8. Stateful metaprogramming with friends
 9. Reflection tricks. std::source_location, enum reflection, struct reflection
 10. Type lists
 11. Traits and policies
-12. Policy based design (11)
+12. Policy based design
 13. Polymorphism. VTables, templates, CRTP, type erasure
 14. Multimethods
 15. EBCO
 16. Mixins
 17. Named template arguments trick
 18. Hierarchy generation
-19. Tuples and variants (18)
-20. OO patterns revisited: factory (12), abstract factory (18), prototype (13), visitor, command (13), observer, strategy (12)...
-21. Niebloids (3)
-22. Ranges (7, 21)
+19. Tuples and variants
+20. OO patterns revisited: factory, abstract factory, prototype, visitor, command, observer, strategy...
+21. Niebloids
+22. Ranges
 
 ## Полезные ссылки
 
