@@ -1,7 +1,5 @@
 #include <iostream>
 
-
-
 #include "typelist.hpp"
 
 int main() {
