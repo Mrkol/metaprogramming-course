@@ -100,11 +100,11 @@ std::string_view dog_sound = *MyMapper::map(*some_animal);
 ASSERT_EQ(dog_sound, "Bark");
 ```
 
-Также посмотрите [тесты](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/tests/task1/main.cpp).
+Также посмотрите [тесты](https://github.com/Mrkol/mipt-metaprogramming-2021/blob/master/tests/task1/main.cpp).
 
 ## Формальности
 
-**Дедлайн:** 04:00 10.10.2020.
+**Дедлайн:** 04:00 10.10.2021.
 
 **Баллы:** 3 уе.
 
