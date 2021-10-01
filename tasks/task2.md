@@ -113,7 +113,7 @@ struct ValueTag{ static constexpr auto Value = V; };
 Также для удобства заведите шаблон для генерации списка значений из пака параметров:
 ```c++
 template<class T, T... ts>
-using VTuple = TypeTuple<ValueTag<ts>...>;
+using VTuple = TTuple<ValueTag<ts>...>;
 ```
 
 По возможности используйте уже реализованные функции.
