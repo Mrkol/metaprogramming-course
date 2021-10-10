@@ -5,7 +5,7 @@ cd "$(dirname "$(readlink -f "$0")")"
 source util.sh
 
 usage() {
-    echo "Usage: $0 [-i <id>] [-n] <repo url> <task id>" 1>&2;
+    echo "Usage: $0 [-i <id>] [-n] <repo url or local repo folder> <task id>" 1>&2;
     exit 1;
 }
 
@@ -43,7 +43,13 @@ if [[ -n "$NOCOMPILE" ]]; then
     CMAKE_EXTRA="-DNOCOMPILE=ON"
 fi
 
-git clone --single-branch --branch="$BRANCH" --depth=1 "$REPO" "$WORKDIR"
+if [ -d "$REPO" ]; then
+    WORKDIR=$REPO
+    BUILDDIR="$WORKDIR/build"
+else
+    git clone --single-branch --branch="$BRANCH" --depth=1 "$REPO" "$WORKDIR"
+fi
+
 mkdir "$BUILDDIR"
 cd "$BUILDDIR"
 
