@@ -21,17 +21,16 @@
 9. Reflection tricks. std::source_location, enum reflection, struct reflection
 10. Type lists
 11. Traits and policies
-12. Policy based design
+12. Policy based design, Mixins, EBCO
 13. Polymorphism. VTables, templates, CRTP, type erasure
 14. Multimethods
-15. EBCO
-16. Mixins
-17. Named template arguments trick
-18. Hierarchy generation
-19. Tuples and variants
-20. OO patterns revisited: factory, abstract factory, prototype, visitor, command, observer, strategy...
-21. Niebloids
-22. Ranges
+15. Named template arguments trick
+16. Hierarchy generation
+17. Tuples and variants
+18. OO patterns revisited: factory, abstract factory, prototype, visitor, command, observer, strategy...
+19. Niebloids
+20. Tag invoke
+21. Ranges
 
 ## Полезные ссылки
 
@@ -52,6 +51,8 @@ Building Range Adaptors ([part 1](https://www.youtube.com/watch?v=YWayW5ePpkY), 
 [C++14 Reflections Without Macros, Markup nor External Tooling](https://youtu.be/abdeAew3gmQ) &mdash; Антон Полухин, CppCon
 
 [How to Hack C++ with Templates and Friends](https://www.worldcadaccess.com/blog/2020/05/how-to-hack-c-with-templates-and-friends.html)
+
+[C++ vtables](https://shaharmike.com/cpp/vtable-part1/) &mdash; таблицы виртуальных функций в деталях
 
 ## Полезные книжки
 
