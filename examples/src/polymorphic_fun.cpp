@@ -148,7 +148,8 @@ struct Any
 
 
 template<class T, std::common_reference_with<Any> A>
-decltype(auto) any_cast(A&& a)
+auto any_cast(A&& a) noexcept( noexcept(std::forward<A>(a).template get<T>()) )
+    -> decltype(std::forward<A>(a).template get<T>())
 {
     return std::forward<A>(a).template get<T>();
 }
