@@ -54,6 +54,15 @@ Building Range Adaptors ([part 1](https://www.youtube.com/watch?v=YWayW5ePpkY), 
 
 [C++ vtables](https://shaharmike.com/cpp/vtable-part1/) &mdash; таблицы виртуальных функций в деталях
 
+[Customization Point Design in C++11 and Beyond](http://ericniebler.com/2014/10/21/customization-point-design-in-c11-and-beyond/) &mdash; ниблоиды, CPO используемые в `std::ranges`
+
+[tag_invoke: A general pattern for supporting
+customisable functions (P1895)](http://open-std.org/JTC1/SC22/WG21/docs/papers/2019/p1895r0.pdf) &mdash; новый ультимативный механизм для CPO 
+
+[function2](https://github.com/Naios/function2) &mdash; улучшеный `std::function`, пример реализации `vtable` руками
+
+[libunifex](https://github.com/facebookexperimental/libunifex) &mdash; новый фреймворк для асинхронности в плюсах. Содержит примеры и на `vtable`, и на тайплисты, и на `tag_invoke`, и вообще на всё на свете
+
 ## Полезные книжки
 
 Andrei Alexandrescu, "Modern C++ Design: Generic Programming and Design Patterns Applied" &mdash; слегка устаревшая классика
