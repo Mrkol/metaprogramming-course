@@ -165,7 +165,7 @@ static_assert(std::is_same_v<Describe<S>::Field<3>::FindAnnotation<Checksum>, Ch
 
 ## Формальности
 
-**Дедлайн:** 09:00 14.12.2020.
+**Дедлайн:** 04:00 14.12.2021.
 
 **Баллы:** 3 уе.
 
