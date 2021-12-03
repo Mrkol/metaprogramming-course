@@ -63,6 +63,8 @@ customisable functions (P1895)](http://open-std.org/JTC1/SC22/WG21/docs/papers/2
 
 [libunifex](https://github.com/facebookexperimental/libunifex) &mdash; новый фреймворк для асинхронности в плюсах. Содержит примеры и на `vtable`, и на тайплисты, и на `tag_invoke`, и вообще на всё на свете
 
+[Building Range Adaptors](https://www.youtube.com/watch?v=YWayW5ePpkY) &mdash; Chris Di Bella, CppCon
+
 ## Полезные книжки
 
 Andrei Alexandrescu, "Modern C++ Design: Generic Programming and Design Patterns Applied" &mdash; слегка устаревшая классика
