@@ -65,6 +65,8 @@ customisable functions (P1895)](http://open-std.org/JTC1/SC22/WG21/docs/papers/2
 
 [Building Range Adaptors](https://www.youtube.com/watch?v=YWayW5ePpkY) &mdash; Chris Di Bella, CppCon
 
+[YOMM2](https://github.com/jll63/yomm2) &mdash; библиотека для открытых (мульти)методов
+
 ## Полезные книжки
 
 Andrei Alexandrescu, "Modern C++ Design: Generic Programming and Design Patterns Applied" &mdash; слегка устаревшая классика
