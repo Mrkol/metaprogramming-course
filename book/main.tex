@@ -1,0 +1,45 @@
+\documentclass[11pt,twoside,openany]{book}
+
+\input{preamble.tex}
+
+
+\textheight 187mm
+\textwidth 130mm
+\headheight 13.6pt
+\special{papersize=170mm,240mm}
+\oddsidemargin -8mm
+\evensidemargin -8mm
+\topmargin -6mm
+
+
+\begin{document}
+
+Привет, world!
+
+\begin{lstlisting}
+
+template<template<class> Template, class T>
+concept InstanceOf = requires(T t) { []<class U>(Template<U>){}(t); };
+
+/*
+Не работает!
+.= .- := =:=
+== != === !== =/=
+
+<<- <-- <- <-> -> --> ->>
+<=< <<= <==    <=> => ==> =>> >=>
+>>= >>- >-     -< -<< =<<
+<~~ <~ ~~~ ~> ~~>
+
+<<< << <= <>  >= >> >>>
+    <| <|> |>
+
+    <$ <$> $>
+    <+ <+> +>
+    <* <*> *>
+*/
+\end{lstlisting}
+  
+
+\end{document}
+
