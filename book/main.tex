@@ -16,13 +16,13 @@
 
 Привет, world!
 
-\begin{lstlisting}
+\begin{minted}{c++}
 
 template<template<class> Template, class T>
 concept InstanceOf = requires(T t) { []<class U>(Template<U>){}(t); };
 
 /*
-Не работает!
+Работает!
 .= .- := =:=
 == != === !== =/=
 
@@ -38,7 +38,7 @@ concept InstanceOf = requires(T t) { []<class U>(Template<U>){}(t); };
     <+ <+> +>
     <* <*> *>
 */
-\end{lstlisting}
+\end{minted}
   
 
 \end{document}
