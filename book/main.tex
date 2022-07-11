@@ -1,45 +1,16 @@
-\documentclass[11pt,twoside,openany]{book}
+\documentclass[a5paper, 11pt, openany]{book}
+
+\title{Метапрограммирование на C++}
+\author{}
 
 \input{preamble.tex}
 
-
-\textheight 187mm
-\textwidth 130mm
-\headheight 13.6pt
-\special{papersize=170mm,240mm}
-\oddsidemargin -8mm
-\evensidemargin -8mm
-\topmargin -6mm
-
-
 \begin{document}
 
-Привет, world!
+\maketitle
+\tableofcontents
 
-\begin{minted}{c++}
-
-template<template<class> Template, class T>
-concept InstanceOf = requires(T t) { []<class U>(Template<U>){}(t); };
-
-/*
-Работает!
-.= .- := =:=
-== != === !== =/=
-
-<<- <-- <- <-> -> --> ->>
-<=< <<= <==    <=> => ==> =>> >=>
->>= >>- >-     -< -<< =<<
-<~~ <~ ~~~ ~> ~~>
-
-<<< << <= <>  >= >> >>>
-    <| <|> |>
-
-    <$ <$> $>
-    <+ <+> +>
-    <* <*> *>
-*/
-\end{minted}
-  
+\include{chapter1}
 
 \end{document}
 
