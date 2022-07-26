@@ -274,6 +274,84 @@ struct Person
 \end{minted}
 \item Напишите шаблон функции \inlcpp{pairLess} от одного аргумента с типом произвольной специализации \inlcpp{std::pair}, возвращающую \inlcpp{true} если первый элемент меньше второго, а иначе \inlcpp{false}. Обратите внимание, типы первого и второго элемента пары могут отличаться. О синтаксисе шаблона с несколькими аргументами читателю предлагается догадаться самостоятельно.
 \item Что произойдёт, если забыть объявить явную специализацию в заголовочном файле?
+\item Рассмотрим следующий код
+\begin{minted}{c++}
+// Часть интерфейса библиотеки
+struct GraphicsState
+{
+    bool enableWireframe;
+    std::string noiseTextureName;
+    std::optional<PipelineDescription> pipelineDescription;
+    ...
+};
+
+// Часть имплементации библиотеки
+struct InternalGraphicsState
+{
+    bool enableWireframe{false};
+    TexturePtr noiseTexture;
+    std::optional<PipelineDescription> pipelineDescription;
+    ...
+};
+
+InternalGraphicsState covertState(
+    const GraphicsState& state)
+{
+    InternalGraphicsState result;
+    result.enableWireframe = state.enableWireframe;
+    if (!noiseTextureName.empty())
+    {
+        result.noiseTexture =
+            getTexture(state.noiseTextureName);
+    }
+    result.pipelineDescription = state.pipelineDescription;
+
+    ...
+
+    return result;
+}
+
+struct InternalGraphicsStateDelta
+{
+    // std::nullopt означает отсутствие изменения
+    std::optional<bool> enableWireframe;
+    std::optional<Texture> noiseTexture;
+    std::optional<Pipeline> pipeline;
+    ...
+};
+
+InternalGraphicsStateDelta calculateDelta(
+    const InternalGraphicsState& before,
+    const InternalGraphicsState& after)
+{
+    InternalGraphicsStateDelta result;
+    if (before.enableWireframe
+        != after.enableWireframe)
+    {
+        result.enableWireframe
+            = after.enableWireframe;
+    }
+
+    if (before.noiseTexture !=
+        after.noiseTexture)
+    {
+        result.noiseTexture
+            = after.noiseTexture;
+    }
+
+    if (before.pipelineDescription
+        != after.pipelineDescription)
+    {
+        result.pipeline = createPipeline(
+            after.pipelineDescription)
+    }
+
+    ...
+
+    return result;
+}
+\end{minted}
+Используя шаблоны функций и возможно макросы, избавьте код от копипасты логики и сделайте добавление новых полей-состояний в эти структуры более безболезненным. Для поддержки "особенных" полей воспользуйтесь явной специализацией шаблонов функций. 
 \end{itemize}
 
 \section{Шаблоны переменных}
