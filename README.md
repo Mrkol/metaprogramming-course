@@ -22,7 +22,7 @@
 10. Type lists
 11. Traits and policies
 12. Policy based design, Mixins, EBCO
-13. Polymorphism. VTables, templates, CRTP, type erasure
+13. Polymorphism. VTables, templates, macros, link time polymorphism, CRTP, type erasure
 14. Multimethods
 15. Named template arguments trick
 16. Hierarchy generation
@@ -31,6 +31,7 @@
 19. Niebloids
 20. Tag invoke
 21. Ranges
+22. Macros and codegen
 
 ## Полезные ссылки
 
