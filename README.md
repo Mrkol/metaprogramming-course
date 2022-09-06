@@ -57,6 +57,8 @@ Building Range Adaptors ([part 1](https://www.youtube.com/watch?v=YWayW5ePpkY), 
 
 [Customization Point Design in C++11 and Beyond](http://ericniebler.com/2014/10/21/customization-point-design-in-c11-and-beyond/) &mdash; ниблоиды, CPO используемые в `std::ranges`
 
+[~Template~ metaprogramming](https://github.com/boost-ext/mp) &mdash; бесплатные списки типов
+
 [tag_invoke: A general pattern for supporting
 customisable functions (P1895)](http://open-std.org/JTC1/SC22/WG21/docs/papers/2019/p1895r0.pdf) &mdash; новый ультимативный механизм для CPO 
 
