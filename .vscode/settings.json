@@ -1,0 +1,8 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/tests",
+    "cmake.configureArgs":
+    [
+        "-DREPOSITORY_PATH=${workspaceFolder}/../solutions",
+        "-DTASK=0"
+    ]
+}

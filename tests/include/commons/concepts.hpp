@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-namespace mpg {
+namespace mpc {
 namespace detail {
 
 template <class T>
