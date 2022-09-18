@@ -2,10 +2,9 @@
 ============================
 
 [Презентации](https://drive.google.com/drive/folders/1JUSjHeZMyicojhJ7ebN3aStnU7VxqZEq?usp=sharing)
-
-[Задания](https://github.com/Mrkol/mipt-metaprogramming-2021/tree/master/tasks)
-
-[Code style](https://github.com/Mrkol/mipt-metaprogramming-2021/blob/master/codestyle.md)
+[Условия задач](https://github.com/Mrkol/metaprogramming-course/tree/master/tasks)
+[Как тестировать задачи](https://github.com/Mrkol/metaprogramming-course/tree/master/tests)
+[Code style](https://github.com/Mrkol/metaprogramming-course/blob/master/codestyle.md)
 
 ## Темы
 Темы идут в произвольном порядке и не мапятся 1 к 1 на занятия. Более того, скорее всего осветить все из них за один семестр не удастся. Программа продумана не до конца и будет уточняться по ходу дела.
@@ -57,10 +56,12 @@ Building Range Adaptors ([part 1](https://www.youtube.com/watch?v=YWayW5ePpkY), 
 
 [Customization Point Design in C++11 and Beyond](http://ericniebler.com/2014/10/21/customization-point-design-in-c11-and-beyond/) &mdash; ниблоиды, CPO используемые в `std::ranges`
 
-[~Template~ metaprogramming](https://github.com/boost-ext/mp) &mdash; бесплатные списки типов
+[~Template~ metaprogramming](https://github.com/boost-ext/mp) &mdash; бесплатные списки типов через `std::ranges`
 
 [tag_invoke: A general pattern for supporting
-customisable functions (P1895)](http://open-std.org/JTC1/SC22/WG21/docs/papers/2019/p1895r0.pdf) &mdash; новый ультимативный механизм для CPO 
+customisable functions (P1895)](http://open-std.org/JTC1/SC22/WG21/docs/papers/2019/p1895r0.pdf) &mdash; новый ультимативный механизм для CPO без измений в язык
+
+[https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1985r1.pdf](Universal Template Parameters) &mdash; то, что мы очень хотим, но получим не скоро
 
 [function2](https://github.com/Naios/function2) &mdash; улучшеный `std::function`, пример реализации `vtable` руками
 

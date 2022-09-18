@@ -3,6 +3,7 @@
     "cmake.configureArgs":
     [
         "-DREPOSITORY_PATH=${workspaceFolder}/../solutions",
-        "-DTASK=0"
+        "-DTASK=0",
+        "-DNOCOMPILE=OFF"
     ]
 }
