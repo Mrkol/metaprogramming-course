@@ -2,8 +2,11 @@
 ============================
 
 [Презентации](https://drive.google.com/drive/folders/1JUSjHeZMyicojhJ7ebN3aStnU7VxqZEq?usp=sharing)
+
 [Условия задач](https://github.com/Mrkol/metaprogramming-course/tree/master/tasks)
+
 [Как тестировать задачи](https://github.com/Mrkol/metaprogramming-course/tree/master/tests)
+
 [Code style](https://github.com/Mrkol/metaprogramming-course/blob/master/codestyle.md)
 
 ## Темы

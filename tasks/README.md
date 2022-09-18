@@ -7,6 +7,8 @@
 
 Обратите внимание на [code style](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/codestyle.md).
 
+Обязательно прочтите [как тестировать задачи локально](https://github.com/Mrkol/metaprogramming-course/blob/master/tests/README.md).
+
 ## Правила сдачи
 
 Решение каждой задачи размещайте в отдельной ветке и в соответсвующей папке в корне репозитория, после чего делайте pull request в master. Добавлять новые файлы можно, cpp-файлы автоматом будут линковаться к тестам.
