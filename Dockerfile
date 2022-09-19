@@ -1,6 +1,6 @@
 
 # Base stage that can be used for development
-FROM alpine:3.16 AS metacourse-base
+FROM alpine:edge AS metacourse-base
 
 ENV TZ=Europe/Moscow
 
