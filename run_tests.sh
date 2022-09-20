@@ -17,7 +17,7 @@ function exit_with_code {
 
 task_name="task${task_id}"
 
-git ls-remote --exit-code --heads ${git_repo} ${task_name} &> /dev/null
+git ls-remote --exit-code --heads $student_repo $task_name &> /dev/null
 errc=$?
 if [ $errc -ne 0 ]
 then
@@ -25,7 +25,7 @@ then
 fi
 
 echo "Cloning solution repo $student_repo"
-git clone $student_repo solution &> /dev/null
+git clone -b $task_name $student_repo solution &> /dev/null
 errc=$?
 if [ $errc -ne 0 ]
 then
@@ -46,17 +46,18 @@ pushd course/tests &> /dev/null
 mkdir build
 pushd build &> /dev/null
 
-
+echo "Configuring the task build"
 cmake .. -DREPOSITORY_PATH=${sudents_repo_path} -DTASK=${task_id} -DNOCOMPILE=YES
 
-while read test_block
+while IFS=' ' read -A test_block
 do
-  split_test_block=($test_block)
-  block_name=${split_test_block[0]}
-  test_names=${split_test_block[1]//,/ }
-  block_score=${split_test_block[2]}
-  for test in test_names
-  do    
+  block_name=${test_block[1]}
+  test_names=${test_block[2]//,/ }
+  block_score=${test_block[3]}
+  echo "Testing block ${block_name}"
+  for test in $test_names
+  do
+    echo "Building test ${test}"
     cmake --build . --target ${test}
     errc=$?
     if [ -z "${test##*nocompile*}" ]
@@ -77,7 +78,7 @@ do
           break
       fi
     fi
-    ./${task_name}/${test}
+    ctest --test-command ${test}
     errc=$?
     if [ $errc -ne 0 ]
     then
