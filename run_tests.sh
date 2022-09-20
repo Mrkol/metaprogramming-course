@@ -78,6 +78,7 @@ do
           break
       fi
     fi
+    echo "Running test ${test}"
     ctest --test-command ${test}
     errc=$?
     if [ $errc -ne 0 ]
@@ -88,6 +89,7 @@ do
       break
     fi
   done
+  echo "SUCCESS! ${test} passed!"
   (( final_score += block_score ))
 done < "../${task_name}/tests"
 
