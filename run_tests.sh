@@ -89,7 +89,7 @@ do
       break
     fi
   done
-  echo "SUCCESS! ${test} passed!"
+  echo "SUCCESS! Test ${test} passed!"
   (( final_score += block_score ))
 done < "../${task_name}/tests"
 
