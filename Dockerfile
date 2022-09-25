@@ -31,7 +31,7 @@ ENTRYPOINT [ "/home/tester/run_tests.sh" ]
 
 FROM metacourse-base AS metacourse-dev
 
-RUN apk add --no-cache libuser sudo
+RUN apk add --no-cache libuser sudo gdb
 
 ENV USER_ID=65535
 ENV GROUP_ID=65535
