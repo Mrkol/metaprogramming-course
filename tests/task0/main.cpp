@@ -25,10 +25,26 @@ MPC_STATIC_REQUIRE_TRUE((requires(
     requires std::random_access_iterator<decltype(s1.end())>;
     requires std::random_access_iterator<decltype(s2.begin())>;
     requires std::random_access_iterator<decltype(s2.end())>;
-    { s1.begin() } -> std::same_as<decltype(s1)::Iterator>;
-    { s1.end() } -> std::same_as<decltype(s1)::Iterator>;
-    { s2.begin() } -> std::same_as<decltype(s2)::Iterator>;
-    { s2.end() } -> std::same_as<decltype(s2)::Iterator>;
+    
+    { s1.begin() } -> std::same_as<decltype(s1)::iterator>;
+    { s1.end() } -> std::same_as<decltype(s1)::iterator>;
+
+    { s2.begin() } -> std::same_as<decltype(s2)::iterator>;
+    { s2.end() } -> std::same_as<decltype(s2)::iterator>;
+    
+    { s2.rbegin() } -> std::same_as<std::reverse_iterator<decltype(s2)::iterator>>;
+    { s2.rend() } -> std::same_as<std::reverse_iterator<decltype(s2)::iterator>>;
+  }))
+
+MPC_STATIC_REQUIRE_TRUE((requires() {
+    requires std::same_as<Slice<const int>::value_type, int>;
+    requires std::same_as<Slice<const int>::element_type, const int>;
+    requires std::same_as<Slice<const int>::size_type, std::size_t>;
+    requires std::same_as<Slice<int>::pointer, int*>;
+    requires std::same_as<Slice<int>::const_pointer, const int*>;
+    requires std::same_as<Slice<int>::reference, int&>;
+    requires std::same_as<Slice<int>::const_reference, const int&>;
+    requires std::same_as<Slice<const int>::difference_type, std::ptrdiff_t>;
   }))
 
 MPC_STATIC_REQUIRE_TRUE((requires(Slice<const int> cslice) {
@@ -40,6 +56,10 @@ MPC_STATIC_REQUIRE_TRUE((requires() {
     requires std::regular<Slice<int, 42, std::dynamic_extent>>;
     requires std::regular<Slice<int, std::dynamic_extent, 42>>;
     requires std::regular<Slice<int, std::dynamic_extent, std::dynamic_extent>>;
+    requires std::is_trivially_copyable_v<Slice<int, 42, 42>>;
+    requires std::is_trivially_copyable_v<Slice<int, 42, std::dynamic_extent>>;
+    requires std::is_trivially_copyable_v<Slice<int, std::dynamic_extent, 42>>;
+    requires std::is_trivially_copyable_v<Slice<int, std::dynamic_extent, std::dynamic_extent>>;
   }));
   
 
