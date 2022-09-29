@@ -22,6 +22,7 @@ RUN (cd /home/tester/.ssh && chmod 600 id_rsa id_rsa.pub known_hosts)
 RUN chown -R tester:tester /home/tester/.ssh
 COPY run_tests.sh /home/tester
 RUN chown tester:tester /home/tester/run_tests.sh
+RUN chmod 700 /home/tester/run_tests.sh
 
 USER tester
 WORKDIR /home/tester
