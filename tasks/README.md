@@ -22,7 +22,7 @@
 
 Добавьте в свой репозиторий [бота тестирующей системы](https://github.com/techprogchecker). Убедитесь, что у вас есть доступ к `https://akhcheck.ru/` (т.е. аккаунт). В разделе "курсы" у вас должен быть курс "Метапрограммирование 2022". Выберете в этом курсе интересующую вас задачу, вставьте ссылку на SSH-клонирование репозитория и нажмите "отправить". С добавлением преподавателей для код-ревью разберёмся позже.
 
-Обратите внимание на [code style](https://github.com/raid-7/mipt-metaprogramming-2020/blob/master/codestyle.md).
+Обратите внимание на [code style](https://github.com/Mrkol/metaprogramming-course/blob/master/codestyle.md).
 
 Обязательно прочтите [как тестировать задачи локально](https://github.com/Mrkol/metaprogramming-course/blob/master/tests/README.md).
 
