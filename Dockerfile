@@ -9,25 +9,7 @@ ENV LC_ALL C.UTF-8
 
 
 RUN apk update && apk upgrade
-RUN apk add --no-cache git openssh build-base clang make cmake lld compiler-rt compiler-rt-static zsh
-
-
-
-FROM metacourse-base AS metacourse-tester
-
-RUN adduser --disabled-password --shell /bin/zsh tester
-COPY .ssh /home/tester/.ssh
-RUN ssh-keyscan -H github.com >> /home/tester/.ssh/known_hosts
-RUN (cd /home/tester/.ssh && chmod 600 id_rsa id_rsa.pub known_hosts)
-RUN chown -R tester:tester /home/tester/.ssh
-COPY run_tests.sh /home/tester
-RUN chown tester:tester /home/tester/run_tests.sh
-RUN chmod 700 /home/tester/run_tests.sh
-
-USER tester
-WORKDIR /home/tester
-
-ENTRYPOINT [ "/home/tester/run_tests.sh" ]
+RUN apk add --no-cache git openssh build-base clang make cmake lld compiler-rt zsh
 
 
 FROM metacourse-base AS metacourse-dev
@@ -46,6 +28,23 @@ RUN echo "$USER_NAME:123" | chpasswd
 RUN echo "$USER_NAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER $USER_NAME
-
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
-ENV ZSH_THEME bira
+# If you don't use bira you're wrong
+RUN sed -i "s/robbyrussell/bira/g" ~/.zshrc
+
+FROM metacourse-base AS metacourse-tester
+
+RUN adduser --disabled-password --shell /bin/zsh tester
+COPY .ssh /home/tester/.ssh
+RUN ssh-keyscan -H github.com >> /home/tester/.ssh/known_hosts
+RUN (cd /home/tester/.ssh && chmod 600 id_rsa id_rsa.pub known_hosts)
+RUN chown -R tester:tester /home/tester/.ssh
+COPY run_tests.sh /home/tester
+RUN chown tester:tester /home/tester/run_tests.sh
+RUN chmod 700 /home/tester/run_tests.sh
+
+USER tester
+WORKDIR /home/tester
+
+ENTRYPOINT [ "/home/tester/run_tests.sh" ]
+

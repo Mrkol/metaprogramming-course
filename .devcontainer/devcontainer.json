@@ -18,7 +18,7 @@
 
 	// Mount solutions repo
 	"mounts": [
-		"source=${localWorkspaceFolder}/../metaprogramming-course-solutions-template,target=/workspaces/solutions,type=bind"
+		"source=${localWorkspaceFolder}/../metaprogramming-course-solutions,target=/workspaces/solutions,type=bind"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
