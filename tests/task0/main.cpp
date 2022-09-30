@@ -9,14 +9,14 @@
 
 
 
-static_assert(sizeof(Slice<int>) == sizeof(void*) + sizeof(size_t));
+static_assert(sizeof(Slice<int>) == sizeof(void*) + sizeof(std::size_t));
 
 static_assert(sizeof(Slice<int, 2>) == sizeof(void*));
 
-static_assert(sizeof(Slice<int, 2, dynamic_stride>) == sizeof(void*) + sizeof(size_t));
+static_assert(sizeof(Slice<int, 2, dynamic_stride>) == sizeof(void*) + sizeof(std::ptrdiff_t));
 
 static_assert(sizeof(Slice<int, std::dynamic_extent, dynamic_stride>)
-  == sizeof(void*) + 2*sizeof(size_t));
+  == sizeof(void*) + sizeof(std::size_t) + sizeof(std::ptrdiff_t));
 
 MPC_STATIC_REQUIRE_TRUE((requires(
       Slice<int, 42, 42> s1,
