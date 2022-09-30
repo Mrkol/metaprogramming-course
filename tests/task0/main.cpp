@@ -13,9 +13,9 @@ static_assert(sizeof(Slice<int>) == sizeof(void*) + sizeof(size_t));
 
 static_assert(sizeof(Slice<int, 2>) == sizeof(void*));
 
-static_assert(sizeof(Slice<int, 2, std::dynamic_extent>) == sizeof(void*) + sizeof(size_t));
+static_assert(sizeof(Slice<int, 2, dynamic_stride>) == sizeof(void*) + sizeof(size_t));
 
-static_assert(sizeof(Slice<int, std::dynamic_extent, std::dynamic_extent>)
+static_assert(sizeof(Slice<int, std::dynamic_extent, dynamic_stride>)
   == sizeof(void*) + 2*sizeof(size_t));
 
 MPC_STATIC_REQUIRE_TRUE((requires(
@@ -25,13 +25,13 @@ MPC_STATIC_REQUIRE_TRUE((requires(
     requires std::random_access_iterator<decltype(s1.end())>;
     requires std::random_access_iterator<decltype(s2.begin())>;
     requires std::random_access_iterator<decltype(s2.end())>;
-    
+
     { s1.begin() } -> std::same_as<decltype(s1)::iterator>;
     { s1.end() } -> std::same_as<decltype(s1)::iterator>;
 
     { s2.begin() } -> std::same_as<decltype(s2)::iterator>;
     { s2.end() } -> std::same_as<decltype(s2)::iterator>;
-    
+
     { s2.rbegin() } -> std::same_as<std::reverse_iterator<decltype(s2)::iterator>>;
     { s2.rend() } -> std::same_as<std::reverse_iterator<decltype(s2)::iterator>>;
   }))
@@ -53,24 +53,24 @@ MPC_STATIC_REQUIRE_TRUE((requires(Slice<const int> cslice) {
 
 MPC_STATIC_REQUIRE_TRUE((requires() {
     requires std::regular<Slice<int, 42, 42>>;
-    requires std::regular<Slice<int, 42, std::dynamic_extent>>;
+    requires std::regular<Slice<int, 42, dynamic_stride>>;
     requires std::regular<Slice<int, std::dynamic_extent, 42>>;
-    requires std::regular<Slice<int, std::dynamic_extent, std::dynamic_extent>>;
+    requires std::regular<Slice<int, std::dynamic_extent, dynamic_stride>>;
     requires std::is_trivially_copyable_v<Slice<int, 42, 42>>;
-    requires std::is_trivially_copyable_v<Slice<int, 42, std::dynamic_extent>>;
+    requires std::is_trivially_copyable_v<Slice<int, 42, dynamic_stride>>;
     requires std::is_trivially_copyable_v<Slice<int, std::dynamic_extent, 42>>;
-    requires std::is_trivially_copyable_v<Slice<int, std::dynamic_extent, std::dynamic_extent>>;
+    requires std::is_trivially_copyable_v<Slice<int, std::dynamic_extent, dynamic_stride>>;
   }));
-  
+
 
 MPC_STATIC_REQUIRE_TRUE((requires() {
     requires std::convertible_to<Slice<int, 42, 42>, Slice<const int, 42, 42>>;
     requires std::convertible_to<Slice<int, 42, 42>, Slice<const int, std::dynamic_extent, 42>>;
-    requires std::convertible_to<Slice<int, 42, 42>, Slice<const int, 42, std::dynamic_extent>>;
-    requires std::convertible_to<Slice<int, 42, 42>, Slice<const int, std::dynamic_extent, std::dynamic_extent>>;
+    requires std::convertible_to<Slice<int, 42, 42>, Slice<const int, 42, dynamic_stride>>;
+    requires std::convertible_to<Slice<int, 42, 42>, Slice<const int, std::dynamic_extent, dynamic_stride>>;
     requires std::convertible_to<Slice<int, 42, 42>, Slice<int, std::dynamic_extent, 42>>;
-    requires std::convertible_to<Slice<int, 42, 42>, Slice<int, 42, std::dynamic_extent>>;
-    requires std::convertible_to<Slice<int, 42, 42>, Slice<int, std::dynamic_extent, std::dynamic_extent>>;
+    requires std::convertible_to<Slice<int, 42, 42>, Slice<int, 42, dynamic_stride>>;
+    requires std::convertible_to<Slice<int, 42, 42>, Slice<int, std::dynamic_extent, dynamic_stride>>;
   }));
 
 int main(int, char**)
@@ -146,7 +146,7 @@ int main(int, char**)
     MPC_REQUIRE(eq, staticLast10, all.DropFirst(42 - 10));
   }
 
-  
+
   {
     std::array<int, 42> arr{};
     std::iota(arr.begin(), arr.end(), 0);
@@ -189,7 +189,7 @@ int main(int, char**)
       MPC_REQUIRE(eq, elem, 4*arr[elem/4]);
 
     // Implicit casts to dynamic parameters
-    Slice<int, everyFourth3.Size(), std::dynamic_extent>
+    Slice<int, everyFourth3.Size(), dynamic_stride>
       dynStrideSlice = everyFourth3;
     MPC_REQUIRE(eq, dynStrideSlice.Data(), everyFourth3.Data());
     MPC_REQUIRE(eq, dynStrideSlice.Size(), everyFourth3.Size());
@@ -201,7 +201,7 @@ int main(int, char**)
     MPC_REQUIRE(eq, dynExtentSlice.Size(), everyFourth3.Size());
     MPC_REQUIRE(eq, dynExtentSlice.Stride(), everyFourth3.Stride());
 
-    Slice<int, std::dynamic_extent, std::dynamic_extent>
+    Slice<int, std::dynamic_extent, dynamic_stride>
       dynSlice = everyFourth3;
     MPC_REQUIRE(eq, dynSlice.Data(), everyFourth3.Data());
     MPC_REQUIRE(eq, dynSlice.Size(), everyFourth3.Size());
@@ -222,7 +222,7 @@ int main(int, char**)
     for (std::size_t i = 0; i < cslice.Size(); ++i)
       MPC_REQUIRE(eq, cslice[i], vec[i]);
   }
-  
+
   {
     std::array<int, 42> arr;
     std::iota(arr.begin(), arr.end(), 0);
@@ -230,23 +230,23 @@ int main(int, char**)
 
     Slice<const int> constAll = all;
     MPC_REQUIRE(eq, all, constAll);
-    
+
     Slice<const int, std::dynamic_extent, 1> constDynExtAll = all;
     MPC_REQUIRE(eq, all, constDynExtAll);
-    
-    Slice<const int, all.Size(), std::dynamic_extent> constDynStrideAll = all;
+
+    Slice<const int, all.Size(), dynamic_stride> constDynStrideAll = all;
     MPC_REQUIRE(eq, all, constDynStrideAll);
-    
-    Slice<const int, std::dynamic_extent, std::dynamic_extent> constDynStrideDynextAll = all;
+
+    Slice<const int, std::dynamic_extent, dynamic_stride> constDynStrideDynextAll = all;
     MPC_REQUIRE(eq, all, constDynStrideDynextAll);
-    
+
     Slice<int, std::dynamic_extent, 1> dynExtAll = all;
     MPC_REQUIRE(eq, all, dynExtAll);
-    
-    Slice<int, all.Size(), std::dynamic_extent> dynStrideAll = all;
+
+    Slice<int, all.Size(), dynamic_stride> dynStrideAll = all;
     MPC_REQUIRE(eq, all, dynStrideAll);
-    
-    Slice<int, std::dynamic_extent, std::dynamic_extent> dynStrideDynextAll = all;
+
+    Slice<int, std::dynamic_extent, dynamic_stride> dynStrideDynextAll = all;
     MPC_REQUIRE(eq, all, dynStrideDynextAll);
   }
 }
