@@ -4,16 +4,20 @@
 ## Подготовка
 
 Для сдачи заданий необходимо создать **приватный** **пустой** репозиторий с названием `metaprogramming-course-solutions` и выставить в качестве второго ремоута [репозиторий шаблонов решений](https://github.com/Mrkol/metaprogramming-course-solutions-template). Создав и склонировав свой репозиторий, добавить второй ремоут можно так:
+
 * git remote add template git@github.com:Mrkol/metaprogramming-course-solutions-template.git
 * git remote set-url --push template DISABLE
 * git fetch template
 * git rebase template/main
+
 Далее можете создавать бранч для нужной задачи (название строго `taskN`, где N -- номер задачи). **Внимание**: при обнавлении шаблона решений придётся ребейзить ваши бранчи следующим образом:
+
 * git fetch template
 * git checkout main && git rebase template/main
-* git checkout task0 && git rebase main 
-* git checkout task1 && git rebase main 
+* git checkout task0 && git rebase main
+* git checkout task1 && git rebase main
 * ...
+
 Если вам в лом со всем этим разбираться, можете просто забить на шаблон-репозиторий. Главное, чтобы в вашем репозитории были ветки с кодом, который проходит тесты.
 
 Добавьте в свой репозиторий [бота тестирующей системы](https://github.com/techprogchecker). Убедитесь, что у вас есть доступ к `https://akhcheck.ru/` (т.е. аккаунт). В разделе "курсы" у вас должен быть курс "Метапрограммирование 2022". Выберете в этом курсе интересующую вас задачу, вставьте ссылку на SSH-клонирование репозитория и нажмите "отправить". С добавлением преподавателей для код-ревью разберёмся позже.
