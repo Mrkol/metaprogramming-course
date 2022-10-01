@@ -5,17 +5,17 @@
 
 Для сдачи заданий необходимо создать **приватный** **пустой** репозиторий с названием `metaprogramming-course-solutions` и выставить в качестве второго ремоута [репозиторий шаблонов решений](https://github.com/Mrkol/metaprogramming-course-solutions-template). Создав и склонировав свой репозиторий, добавить второй ремоут можно так:
 
-* git remote add template git@github.com:Mrkol/metaprogramming-course-solutions-template.git
-* git remote set-url --push template DISABLE
-* git fetch template
-* git rebase template/main
+* `git remote add template https://github.com/Mrkol/metaprogramming-course-solutions-template.git`
+* `git remote set-url --push template DISABLE`
+* `git fetch template`
+* `git rebase template/main`
 
 Далее можете создавать бранч для нужной задачи (название строго `taskN`, где N -- номер задачи). **Внимание**: при обнавлении шаблона решений придётся ребейзить ваши бранчи следующим образом:
 
-* git fetch template
-* git checkout main && git rebase template/main
-* git checkout task0 && git rebase main
-* git checkout task1 && git rebase main
+* `git fetch template`
+* `git checkout main && git rebase template/main`
+* `git checkout task0 && git rebase main`
+* `git checkout task1 && git rebase main`
 * ...
 
 Если вам в лом со всем этим разбираться, можете просто забить на шаблон-репозиторий. Главное, чтобы в вашем репозитории были ветки с кодом, который проходит тесты.
