@@ -5,7 +5,7 @@
 
 Это наиболее простой алгоритм заставить всё работать. Если вы хотите как-то поменять рабочее окружение, всё на вашей ответственности.
 
-* Склонируйте локально этот репозиторий и ваш форк [репозитория шаблонов решений](https://github.com/Mrkol/metaprogramming-course-solutions-template) в одну папку. В итоге рядом должны лежать две папки с соответствующими репозиториями, `metaprogramming-course` и `metaprogramming-course-solutions-template`. Не меняйте их имена, иначе конфиги полетят
+* Склонируйте локально этот репозиторий и ваш "форк" [репозитория шаблонов решений](https://github.com/Mrkol/metaprogramming-course-solutions-template) в одну папку. В итоге рядом должны лежать две папки с соответствующими репозиториями, `metaprogramming-course` и `metaprogramming-course-solutions`. Не меняйте их имена, иначе конфиги полетят
 * Установите vscode и docker
 * Откройте vscode, установите расширения "Docker" и "Dev Containers"
 * Внутри vscode выполните команду (Ctrl-Shift-P) "Open Workspace In Container" и выберете файл `solutions.code-workspace` из корня репозитория курса. На всплывшем варнинге нажмите "continue"
