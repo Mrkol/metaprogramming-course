@@ -79,7 +79,7 @@ do
       fi
     fi
     echo "Running test ${test}"
-    ctest --test-command ${test}
+    ctest -R ${test}
     errc=$?
     if [ $errc -ne 0 ]
     then
