@@ -52,7 +52,7 @@ cmake .. -DREPOSITORY_PATH=${sudents_repo_path} -DTASK=${task_id} -DNOCOMPILE=YE
 while IFS=' ' read -A test_block
 do
   block_name=${test_block[1]}
-  test_names=${test_block[2]//,/ }
+  test_names=(${(@s:,:)test_block[2]})
   block_score=${test_block[3]}
   echo "Testing block ${block_name}"
   for test in $test_names
