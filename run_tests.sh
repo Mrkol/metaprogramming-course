@@ -89,7 +89,10 @@ do
       break
     fi
   done
-  echo "SUCCESS! Test ${test} passed!"
+  if [ $block_score -ne 0 ]
+  then
+    echo "SUCCESS! Test ${test} passed!"
+  fi
   (( final_score += block_score ))
 done < "../${task_name}/tests"
 
