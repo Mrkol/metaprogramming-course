@@ -98,19 +98,19 @@ int main(int, char**)
       MPC_REQUIRE(eq, elem, 2*vec[elem/2]);
 
     Slice everyFourth1 = staticEven.Skip(2);
-    MPC_REQUIRE(eq, everyFourth1.Size(), vec.size() / 4);
+    MPC_REQUIRE(eq, everyFourth1.Size(), vec.size() / 4 + 1);
     MPC_REQUIRE(eq, everyFourth1.Stride(), 4u);
     for (auto elem : everyFourth1)
       MPC_REQUIRE(eq, elem, 4*vec[elem/4]);
 
     Slice everyFourth2 = even.Skip<2>();
-    MPC_REQUIRE(eq, everyFourth2.Size(), vec.size() / 4);
+    MPC_REQUIRE(eq, everyFourth2.Size(), vec.size() / 4 + 1);
     MPC_REQUIRE(eq, everyFourth2.Stride(), 4u);
     for (auto elem : everyFourth2)
       MPC_REQUIRE(eq, elem, 4*vec[elem/4]);
 
     Slice everyFourth3 = staticEven.Skip<2>();
-    MPC_REQUIRE(eq, everyFourth3.Size(), vec.size() / 4);
+    MPC_REQUIRE(eq, everyFourth3.Size(), vec.size() / 4 + 1);
     static_assert(everyFourth3.Stride() == 4);
     for (auto elem : everyFourth3)
       MPC_REQUIRE(eq, elem, 4*vec[elem/4]);
@@ -171,19 +171,19 @@ int main(int, char**)
       MPC_REQUIRE(eq, elem, 2*arr[elem/2]);
 
     Slice everyFourth1 = staticEven.Skip(2);
-    MPC_REQUIRE(eq, everyFourth1.Size(), arr.size() / 4);
+    MPC_REQUIRE(eq, everyFourth1.Size(), arr.size() / 4 + 1);
     MPC_REQUIRE(eq, everyFourth1.Stride(), 4u);
     for (auto elem : everyFourth1)
       MPC_REQUIRE(eq, elem, 4*arr[elem/4]);
 
     Slice everyFourth2 = even.Skip<2>();
-    MPC_REQUIRE(eq, everyFourth2.Size(), arr.size() / 4);
+    MPC_REQUIRE(eq, everyFourth2.Size(), arr.size() / 4 + 1);
     MPC_REQUIRE(eq, everyFourth2.Stride(), 4u);
     for (auto elem : everyFourth2)
       MPC_REQUIRE(eq, elem, 4*arr[elem/4]);
 
     Slice everyFourth3 = staticEven.Skip<2>();
-    static_assert(everyFourth3.Size() == arr.size() / 4);
+    static_assert(everyFourth3.Size() == arr.size() / 4 + 1);
     static_assert(everyFourth3.Stride() == 4);
     for (auto elem : everyFourth3)
       MPC_REQUIRE(eq, elem, 4*arr[elem/4]);
