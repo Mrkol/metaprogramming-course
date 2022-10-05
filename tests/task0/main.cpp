@@ -52,8 +52,10 @@ MPC_STATIC_REQUIRE_TRUE((requires(Slice<const int> cslice) {
   }));
 
 MPC_STATIC_REQUIRE_TRUE((requires() {
-    requires std::regular<Slice<int, 42, 42>>;
-    requires std::regular<Slice<int, 42, dynamic_stride>>;
+    requires std::copyable<Slice<int, 42, 42>>;
+    requires std::equality_comparable<Slice<int, 42, 42>>;
+    requires std::copyable<Slice<int, 42, dynamic_stride>>;
+    requires std::equality_comparable<Slice<int, 42, dynamic_stride>>;
     requires std::regular<Slice<int, std::dynamic_extent, 42>>;
     requires std::regular<Slice<int, std::dynamic_extent, dynamic_stride>>;
     requires std::is_trivially_copyable_v<Slice<int, 42, 42>>;
