@@ -11,10 +11,10 @@
 
 using std::operator""sv;
 
-static_assert(std::is_trivially_copyable_v<String<256>>);
-static_assert(std::is_same_v<String<256>, decltype("smth"_cstr)>);
+static_assert(std::is_trivially_copyable_v<FixedString<256>>);
+static_assert(std::is_same_v<FixedString<256>, decltype("smth"_cstr)>);
 static_assert("some text"_cstr == "some text"sv);
-static_assert(String<128>{"some text", 4} == "some"sv);
+static_assert(FixedString<128>{"some text", 4} == "some"sv);
 
 class Animal {
 public:
@@ -48,7 +48,7 @@ void checkWithInts() {
 void checkWithStrings() {
   using MyMapper =
     PolymorphicMapper
-    < Animal, String<256>
+    < Animal, FixedString<256>
     , Mapping<StBernard, "Baaark"_cstr>
     , Mapping<Cat, "Meow"_cstr>
     , Mapping<Dog, "Bark"_cstr>
