@@ -123,6 +123,7 @@ void checkTransforms() {
   using type_lists::Repeat;
   using type_lists::Take;
   using type_lists::Nil;
+  using type_lists::Cycle;
 
 
   using type_lists::Map;
@@ -170,7 +171,11 @@ void checkTransforms() {
     < ToTuple<Filter<Fits, Nil>>
     , TTuple<>
     >);
-
+  
+  static_assert(std::same_as
+    < ToTuple<Take<5, Filter<Fits, Cycle<FromTuple<TTuple<int, bool, uint64_t>>>>>>
+    , TTuple<int, bool, int, bool, int>
+    >);
 }
 
 void checkReducers() {
