@@ -10,11 +10,12 @@ ENV LC_ALL C.UTF-8
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache git openssh build-base clang make cmake lld compiler-rt zsh
-
+ENV CC=/usr/bin/clang
+ENV CXX=/usr/bin/clang++
 
 FROM metacourse-base AS metacourse-dev
 
-RUN apk add --no-cache libuser sudo gdb
+RUN apk add --no-cache libuser sudo gdb llvm
 
 ENV USER_ID=65535
 ENV GROUP_ID=65535
@@ -29,8 +30,6 @@ RUN echo "$USER_NAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER $USER_NAME
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
-# If you don't use bira you're wrong
-RUN sed -i "s/robbyrussell/bira/g" ~/.zshrc
 
 FROM metacourse-base AS metacourse-tester
 
