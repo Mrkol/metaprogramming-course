@@ -1,28 +1,30 @@
 #include <reflect.hpp>
 #include <type_traits>
 #include "annotations.hpp"
-#include <ranges>
+
+#define MAKE_FIELD_NAME(c) MPC_CONCAT(field, c)
 
 #define MAKE_FIELD \
-MPC_ANNOTATE(SerialId<SizeT<4>>, SerialId<SizeT<5>>, SerialId<SizeT<6>>) int MPC_CONCAT(field, __COUNTER__);
+MPC_ANNOTATE(SerialId<SizeT<4>>, SerialId<SizeT<5>>, SerialId<SizeT<6>>) int MAKE_FIELD_NAME(__COUNTER__);
 
-#define MAKE_2(x) x x
-#define MAKE_4(x) MAKE_2(x) MAKE_2(x)
-#define MAKE_16(x) MAKE_4(x) MAKE_4(x)
-#define MAKE_32(x) MAKE_16(x) MAKE_16(x)
-#define MAKE_64(x) MAKE_32(x) MAKE_32(x)
-#define MAKE_128(x) MAKE_64(x) MAKE_64(x)
-#define MAKE_256(x) MAKE_128(x) MAKE_128(x)
-#define MAKE_512(x) MAKE_256(x) MAKE_256(x)
+#define MAKE_2 MAKE_FIELD MAKE_FIELD
+#define MAKE_4 MAKE_2 MAKE_2
+#define MAKE_8 MAKE_4 MAKE_4
+#define MAKE_16 MAKE_8 MAKE_8
+#define MAKE_32 MAKE_16 MAKE_16
+#define MAKE_64 MAKE_32 MAKE_32
+#define MAKE_128 MAKE_64 MAKE_64
+#define MAKE_256 MAKE_128 MAKE_128
 
-#define MAKE_FIELDS MAKE_512(MAKE_FIELD)
+using namespace mpc::annotations;
 
 struct Chonk {
-  MAKE_FIELDS
+  MAKE_256
 };
 
+static_assert(Describe<Chonk>::num_fields == 256);
 static_assert(Describe<Chonk>::Field<0>::has_annotation_class<SerialId<SizeT<4>>>);
-static_assert(Describe<Chonk>::Field<256>::has_annotation_class<SerialId<SizeT<6>>>);
-static_assert(Describe<Chonk>::Field<511>::has_annotation_template<SerialId>);
+static_assert(Describe<Chonk>::Field<128>::has_annotation_class<SerialId<SizeT<6>>>);
+static_assert(Describe<Chonk>::Field<255>::has_annotation_template<SerialId>);
 
 int main() {}
