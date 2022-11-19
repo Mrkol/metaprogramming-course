@@ -15,7 +15,7 @@ ENV CXX=/usr/bin/clang++
 
 FROM metacourse-base AS metacourse-dev
 
-RUN apk add --no-cache libuser sudo gdb llvm
+RUN apk add --no-cache libuser sudo gdb llvm clang-dev
 
 ENV USER_ID=65535
 ENV GROUP_ID=65535
