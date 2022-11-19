@@ -1,4 +1,4 @@
-#include <enum_traits.hpp>
+#include <EnumeratorTraits.hpp>
 
 enum class ScopedEnum {
     VALUE_N_512 = -512,

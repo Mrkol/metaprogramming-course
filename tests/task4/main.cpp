@@ -1,4 +1,4 @@
-#include <enum_traits.hpp>
+#include <EnumeratorTraits.hpp>
 #include <commons/assert.hpp>
 #include <iostream>
 #include <string_view>
@@ -27,11 +27,11 @@ void check(std::string_view name, std::pair<Args, std::string_view>... enumerato
     auto expected = std::array<std::pair<Enum, std::string_view>, sizeof...(Args)>{enumerators...};
 
     std::cout << "Test for " << name << ": "; std::cout.flush();
-    ensure(eq, expected.size(), Traits::size());
+    MPC_REQUIRE(eq, expected.size(), Traits::size());
     for (size_t i = 0; i < expected.size(); ++i) {
         std::cout << i << " "; std::cout.flush();
-        ensure(eq, expected[i].first, Traits::at(i));
-        ensure(eq, expected[i].second, Traits::nameAt(i));
+        MPC_REQUIRE(eq, expected[i].first, Traits::at(i));
+        MPC_REQUIRE(eq, expected[i].second, Traits::nameAt(i));
     }
     std::cout << "OK" << std::endl;
 }
