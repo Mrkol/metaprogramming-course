@@ -9,10 +9,10 @@
 int main() {
   shapes::square sq(42);
 
-  shapes::any_shape1 s{sq};
+  shapes::any_shape s{sq};
 
   shapes::area(s);
-  // auto s2 = shapes::scale_by(s, 2);
+  auto s2 = shapes::scale_by(s, 2);
 
   return 0;
 }

@@ -4,6 +4,7 @@
 #include <array>
 #include <stdexcept>
 #include <utility>
+#include <tuple>
 
 template <typename T>
 concept DependentFalse = false;
@@ -312,14 +313,20 @@ private:
 
   template <typename CPO, typename... Args>
   friend decltype(auto) tag_invoke(CPO, Args&&... args)
-    requires requires(std::tuple<CPOs...> t) { std::get<CPO>(t); } {
+    requires requires(std::tuple<CPOs...> t) { std::get<CPO>(t); } 
+    && (std::derived_from<std::remove_cvref_t<Args>, any_object> || ...) 
+    {
+    const any_object* object = nullptr;
     (([&]<class T>(T&& arg) mutable {
       if constexpr (std::derived_from<std::decay_t<T>, any_object>) {
-        auto func = arg.vt_.template get<CPO>();
+        object = &arg;
+        // auto func = arg.vt_.template get<CPO>();
         // static_assert(DependentFalse<decltype(&func)>);
-        func(std::forward<Args>(args)...);
+        // func(std::forward<Args>(args)...);
       }
     }(args)), ...);
+
+    return object->vt_.template get<CPO>()(std::forward<Args>(args)...);
   }
 
   // TODO: cross-cast to any_object with a (non-strict) subset of CPOs?

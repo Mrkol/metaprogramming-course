@@ -55,6 +55,9 @@ namespace mpc {
     OverloadedCpo() = default;
     OverloadedCpo(CPO) {}
 
+    operator CPO() const { return {}; };
+    operator CPO() { return {}; };
+
     using type_erased_signature_t = Signature;
 
     template <typename... Args>
