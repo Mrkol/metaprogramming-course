@@ -1,5 +1,5 @@
 \usepackage{fontspec}
-\usepackage{polyglossia}
+\usepackage[babelshorthands=true]{polyglossia}
 
 \setdefaultlanguage{russian}
 \setotherlanguage{english}
@@ -9,16 +9,17 @@
 
 \setmainfont{Times New Roman}
 \setsansfont{Arial}
-\setmonofont[Contextuals=Alternate]{Fira Code}
+\setmonofont[Contextuals=Alternate, Scale=MatchLowercase]{Fira Code}
 
 \newfontfamily\cyrillicfont{Times New Roman}
 \newfontfamily\cyrillicfontsf{Arial}
-\newfontfamily\cyrillicfonttt[Contextuals=Alternate]{Fira Code}
+\newfontfamily\cyrillicfonttt[Contextuals=Alternate, Scale=MatchLowercase]{Fira Code}
 
 \newfontfamily\englishfont{Times New Roman}
 \newfontfamily\englishfontsf{Arial}
-\newfontfamily\englishfonttt[Contextuals=Alternate]{Fira Code}
+\newfontfamily\englishfonttt[Contextuals=Alternate, Scale=MatchLowercase]{Fira Code}
 
+\usepackage{microtype} % nicer layouts with microtypography tricks
 
 \usepackage[
     inner = 1.5cm,
@@ -26,17 +27,49 @@
     bottom = 1.5cm
 ]{geometry}
 
+\usepackage{enumitem} % russian style lists
+\setlist{nosep,topsep=-\parskip}
+\setlist[enumerate]{label={\arabic*)}}
+\setlist[itemize]{label={---}}
 
 \usepackage[outputdir=build]{minted}
 \usemintedstyle{vs}
-\setminted{fontsize=\footnotesize}
 
 \newcommand{\inlcpp}[1]{\mintinline{c++}{#1}}
+\newcommand{\mintlbl}[1]{\phantomsection\label{#1}}
 
-\usepackage{amsfonts} 
-\usepackage{hyperref}
+\usepackage{amsfonts}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{xurl}
+\urlstyle{same}
+\usepackage[hidelinks,colorlinks=true]{hyperref}
 \hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    urlcolor=cyan,
+  linkcolor=BrickRed,
+  citecolor=Green,
+  filecolor=Mulberry,
+  urlcolor=NavyBlue,
+  menucolor=BrickRed,
+  runcolor=Mulberry,
+  linkbordercolor=BrickRed,
+  citebordercolor=Green,
+  filebordercolor=Mulberry,
+  urlbordercolor=NavyBlue,
+  menubordercolor=BrickRed,
+  runbordercolor=Mulberry
 }
+
+\usepackage[backend=biber,
+  bibencoding=utf8,
+  sorting=none,
+  style=gost-numeric,
+  language=autobib,
+  autolang=other,
+  clearlang=true,
+  defernumbers=true,
+  sortcites=true,
+]{biblatex}
+
+\usepackage{easy-todo}
+
+\overfullrule=10pt
