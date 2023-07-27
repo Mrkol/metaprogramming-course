@@ -20,6 +20,7 @@
 \newfontfamily\englishfonttt[Contextuals=Alternate, Scale=MatchLowercase]{Fira Code}
 
 \usepackage{microtype} % nicer layouts with microtypography tricks
+\usepackage{fnpct} % footnotes after punctuation look nicer
 
 \usepackage[
     inner = 1.5cm,
@@ -28,14 +29,14 @@
 ]{geometry}
 
 \usepackage{enumitem} % russian style lists
-\setlist{nosep,topsep=-\parskip}
+\setlist{nosep}
 \setlist[enumerate]{label={\arabic*)}}
 \setlist[itemize]{label={---}}
 
 \usepackage[outputdir=build]{minted}
 \usemintedstyle{vs}
 
-\newcommand{\inlcpp}[1]{\mintinline{c++}{#1}}
+\newcommand{\inlcpp}[1]{\mintinline[breaklines, breakanywhere]{c++}{#1}}
 \newcommand{\mintlbl}[1]{\phantomsection\label{#1}}
 
 \usepackage{amsfonts}
