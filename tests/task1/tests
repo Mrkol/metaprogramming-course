@@ -1,2 +1,1 @@
-main type_lists,value_sequences 40
-group_by group_by 10
+main main 1000

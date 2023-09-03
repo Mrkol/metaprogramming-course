@@ -1,77 +1,87 @@
-#include <EnumeratorTraits.hpp>
+#include <FixedString.hpp>
+#include <PolymorphicMapper.hpp>
+
 #include <commons/assert.hpp>
-#include <iostream>
+
+#include <optional>
 #include <string_view>
-#include <utility>
+#include <type_traits>
+#include <memory>
 
 
-enum class Shape { // : int
-    SQUARE, CIRCLE = 5, LINE, POINT = -2
+using std::operator""sv;
+
+static_assert(std::is_trivially_copyable_v<FixedString<256>>);
+static_assert(std::is_same_v<FixedString<256>, decltype("smth"_cstr)>);
+static_assert("some text"_cstr == "some text"sv);
+static_assert(FixedString<128>{"some text", 4} == "some"sv);
+
+class Animal {
+public:
+  virtual ~Animal() = default;
 };
 
-// check compile time capabilities
-static_assert(EnumeratorTraits<Shape>::size() == 4);
-static_assert(EnumeratorTraits<Shape>::nameAt(0) == "POINT");
-static_assert(EnumeratorTraits<Shape>::at(0) == Shape::POINT);
-static_assert(EnumeratorTraits<Shape>::at(1) == Shape::SQUARE);
-static_assert(EnumeratorTraits<Shape>::at(3) == Shape::LINE);
+class Cat : public Animal {};
+class Cow : public Animal {};
+class Dog : public Animal {};
+class StBernard : public Dog {};
+class Horse : public Animal {};
+class RaceHorse : public Horse {};
 
+void checkWithInts() {
+  using MyMapper =
+    PolymorphicMapper
+    < Animal, int
+    , Mapping<Cat, 2>
+    , Mapping<Dog, 3>
+    >;
 
+  std::unique_ptr<Animal> dog{new Dog()};
+  std::unique_ptr<Animal> cow{new Cow()};
+  std::unique_ptr<Animal> cat{new Cat()};
 
-#define ue(enumerator) std::pair(enumerator, std::string_view(#enumerator))
-#define se(enumeration, enumerator) std::pair(enumeration::enumerator, std::string_view(#enumerator))
-
-template <class Enum, size_t MAXN=512, std::same_as<Enum>... Args> requires std::is_enum_v<Enum>
-void check(std::string_view name, std::pair<Args, std::string_view>... enumerators) {
-    using Traits = EnumeratorTraits<Enum, MAXN>;
-    auto expected = std::array<std::pair<Enum, std::string_view>, sizeof...(Args)>{enumerators...};
-
-    std::cout << "Test for " << name << ": "; std::cout.flush();
-    MPC_REQUIRE(eq, expected.size(), Traits::size());
-    for (size_t i = 0; i < expected.size(); ++i) {
-        std::cout << i << " "; std::cout.flush();
-        MPC_REQUIRE(eq, expected[i].first, Traits::at(i));
-        MPC_REQUIRE(eq, expected[i].second, Traits::nameAt(i));
-    }
-    std::cout << "OK" << std::endl;
+  MPC_REQUIRE(nullopt, MyMapper::map(*cow));
+  MPC_REQUIRE(eq, *MyMapper::map(*cat), 2);
+  MPC_REQUIRE(eq, *MyMapper::map(*dog), 3);
 }
 
+void checkWithStrings() {
+  using MyMapper =
+    PolymorphicMapper
+    < Animal, FixedString<256>
+    , Mapping<StBernard, "Baaark"_cstr>
+    , Mapping<Cat, "Meow"_cstr>
+    , Mapping<Dog, "Bark"_cstr>
+    , Mapping<Horse, "Neigh"_cstr>
+    >;
 
-// check extreme values (unsigned)
-enum Fruit : unsigned char {
-    APPLE, BANANA = 12, MELON = 255
-};
+  std::unique_ptr<Animal> dog{new Dog()};
+  std::unique_ptr<Animal> st_bernard{new StBernard()};
+  std::unique_ptr<Animal> cow{new Cow()};
+  std::unique_ptr<Animal> cat{new Cat()};
+  std::unique_ptr<Animal> race_horse{new RaceHorse()};
 
-// check extreme values (signed)
-enum Vegetable : signed char {
-    TOMATO, CUCUMBER = -128, ONION = 127
-};
+  MPC_REQUIRE(nullopt, MyMapper::map(*cow));
+  MPC_REQUIRE(eq, *MyMapper::map(*cat), "Meow"sv);
+  MPC_REQUIRE(eq, *MyMapper::map(*dog), "Bark"sv);
+  MPC_REQUIRE(eq, *MyMapper::map(*st_bernard), "Baaark"sv);
+  MPC_REQUIRE(eq, *MyMapper::map(*race_horse), "Neigh"sv);
+}
 
-// check extreme underlying types (unsigned)
-enum class Quests : unsigned long long {
-    DozoR = 18, Encounter, CX
-};
+void checkEmpty() {
+  using MyMapper = PolymorphicMapper<Animal, int>;
 
-// check extreme underlying types (signed)
-enum class Countries : long long {
-    SriLanka
-};
+  std::unique_ptr<Animal> dog{new Dog()};
+  std::unique_ptr<Animal> cow{new Cow()};
+  std::unique_ptr<Animal> cat{new Cat()};
 
-// check empty enums
-enum class ScopedEmpty {}; // : int
-enum UnscopedEmpty : long long {};
-
+  MPC_REQUIRE(nullopt, MyMapper::map(*cow));
+  MPC_REQUIRE(nullopt, MyMapper::map(*cat));
+  MPC_REQUIRE(nullopt, MyMapper::map(*dog));
+}
 
 int main() {
-    check<Shape>("Shape", se(Shape, POINT), se(Shape, SQUARE), se(Shape, CIRCLE), se(Shape, LINE));
-    check<Fruit>("Fruit", ue(APPLE), ue(BANANA), ue(MELON));
-    check<Vegetable>("Vegetable", ue(CUCUMBER), ue(TOMATO), ue(ONION));
-
-    check<Quests, 20>("Quests", se(Quests, DozoR), se(Quests, Encounter), se(Quests, CX));
-    check<Countries, 20>("Countries", se(Countries, SriLanka));
-
-    check<ScopedEmpty>("ScopedEmpty");
-    check<UnscopedEmpty>("UnscopedEmpty");
-
-    return 0;
+  checkWithInts();
+  checkWithStrings();
+  checkEmpty();
 }

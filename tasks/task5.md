@@ -1,180 +1,124 @@
-Задача 5. Annotation processing
+Задача 5. Очень умный неуказатель
 ========================
-
-## Предыстория
-
-Имея возможность интроспекции, можно обощить решения многих задач. Boost.PFR умеет генерировать для поддеживаемых структур специализацию `std::hash`, операторы ввода и вывода в поток и операторы сравнения. Другие варианты применения: бинарная сериализация, ORM.
-
-Иногда может быть полезно сообщить функции, использующей интроспекцию, какую-то дополнительную информацию о конкретном поле. Например, указать название колонки в базе данных или исключить поле из рассмотрения в операторах сравнения. В экосистеме Java для передачи такой контекстной информации используются аннотации. Мы попробуем реализовать поддержку рефлекшна с аннотациями в C++.
-
-В C++ есть два встроенных способа передать контекстную информацию: директивы препроцессора и аттрибуты. Ни тот, ни другой нам не подходят, так как их использование потребовало бы разработки внешних инструментов, выходящих за рамки языка. Вместо этого для аннотирования полей мы будем использовать другие поля:
-
-```cpp
-struct S {
-    int x; // no annotation
-    
-    Annotate<Transient> _annot1;
-    char y; // annotated with Transient
-    
-    Annotate<Transient> _annot2;
-    Annotate<NoCompare> _annot3;
-    float z; // annotated with Transient, NoCompare
-    
-    Annotate<Transient, NoCompare> _annot4;
-    float w; // annotated with Transient, NoCompare
-};
-```
-
-У аннотаций могут быть аргументы. Мы будем передавать их как типовые параметры шаблона:
-
-```cpp
-struct MySerializableStruct {
-    int x;
-
-    Annotate<Checksum<Crc32>> _annot1;
-    uint32_t checksum; // annotated with Checksum with parameter Crc32
-};
-```
 
 ## Подготовка
 
-Вспомните, как выполняются различные операции над списками типов. Самые базовые из них [реализованы в стандартной библиотеке](https://en.cppreference.com/w/cpp/header/tuple) для `std::tuple`.
+Освежите в памяти [использование концептов и ограничений](https://en.cppreference.com/w/cpp/language/constraints) и [объектные концепты стандартной библиотеки](https://en.cppreference.com/w/cpp/concepts).
 
-Вспомните пары про рефлексию в C++.
+Вспомните, какие есть способы реализации стирания типов.
 
-Вспомните, как использовать [template template parameters](https://en.cppreference.com/w/cpp/language/template_parameters).
+Вспомните, как в C++ пишутся "коробки" для значений с точки зрения внешнего интерфейса (e.g. `std::optional`, `std::unique_ptr`). Какие операторы необходимо поддерживать? Какие конструкторы необходимо написать?
 
 ## Задача
 
-Рассмотрим класс-шаблон `Annotate`:
+Реализуйте шаблонный класс Spy, оборачивающий произвольный объект и логирующий обращения к нему.
 
-```cpp
-template <class...>
-class Annotate {};
-```
+Оборачиваемый объект необходимо хранить *по значению*. 2 года назад справедливо заметили, что называть такие сущности указателями неправильно, поэтому мы будем называть их умными неуказателями.
 
-Будем считать, что все поля типа `Annotate` описывают аннотации к ближайшему следующему полю, имеющему тип, отличный от `Annotate`.
+Если `s` &mdash; значение типа `Spy<T>`,  выражение `s->member` должно приводить к обращению к нестатическому члену `member` оборачиваемого объекта.
 
-Реализуйте шаблон `Describe`:
+### Логеры
 
-```cpp
-template <class T>
-struct Describe {
-    static constexpr size_t num_fields = /* number of fields */
-    
-    template <size_t I>
-    using Field = /* field descriptor (see below) */;
-};
-```
+Метод `setLogger` устанавливает логер. После вычисления каждого выражения, содержащего обращения к оборачиваемому объекту через `operator ->`, должен вызываться логер, если он установлен. В качестве аргумента логер принимает количество обращений к объекту при вычислении выражения.
 
-`num_fields` &mdash; число полей структуры `T` без учёта полей типа `Annotate`.
+Обращения через `operator *` не логируются.
 
-Для каждого `I` от 0 до `num_fields - 1`, `Field<I>` &mdash; тип, описывающий `I`-е поле в порядке объявления в структуре `T` без учёта полей-аннотаций, со следующими членами:
+Если оборачиваемый тип `T` не копируемый, то `Spy<T>` должен поддерживать move-only логеры.
 
-```cpp
-struct /* unspecified (field descriptor) */ {
-    using Type = /* type of field */;
-    using Annotations = Annotate</* all annotations of the field */>;
+Если в одном выражении происходит обращение к оборачиваемому объекту и изменяется логер, поведение не определено.
 
-    template <template <class...> class AnnotationTemplate>
-    static constexpr bool has_annotation_template = /* see below */;
-    
-    template <class Annotation>
-    static constexpr bool has_annotation_class = /* see below */;
+Использовать `std::function` и `std::any` в этом задании запрещено.
 
-    template <template <class...> class AnnotationTemplate>
-    using FindAnnotation = /* see below */;
-};
-```
+### Сохранение концептов
 
-`has_annotation_template<AnnotationTemplate>` истинен, когда среди аннотаций поля есть `AnnotationTemplate` с произвольными аргументами шаблона.
+Будем говорить, что умный неуказатель `W` сохраняет концепт `C`, если для любого типа `T`
 
-`has_annotation_class<Annotation>` истинен, когда среди аннотаций поля есть `Annotation`.
+1) `T` удовлетворяет `C` &rArr; `W<T>` удовлетворяет `C`,
+2) `T` моделирует `C` &rArr; `W<T>` моделирует `C`.
 
-`FindAnnotation<AnnotationTemplate>` &mdash; инстанс `AnnotationTemplate` с теми параметрами, с которыми он встречается в списке аннотаций поля. Если `AnnotationTemplate` встречается несколько раз, `FindAnnotation` &mdash; любой из подходящиз инстансов. Если среди аннотаций нет `AnnotationTemplate`, использование `FindAnnotation<AnnotationTemplate>` должно приводить к substitution failure.
+Ваш `Spy` должен сохранять основные объектные концепты: `std::movable`, `std::copyable`, `std::semiregular`, `std::regular`. Для этого можно накладывать дополнительные ограничения на шаблонный аргумент метода `setLogger`.
 
-Для определения количества и типов полей используйте любую подходящую технику. Реализацию можно подсмотреть в [презентации](https://docs.google.com/presentation/d/1Ot2yhAgjUtD7fbxGqstdyzLSq_AGNoFdUNgmkQL9wFs/edit?usp=sharing) или в [Boost.PFR](https://github.com/apolukhin/magic_get). (Только не копипастите из Boost.PFR, пожалуйста. Там как минимум code style не совместим с нашим.) Получать значения полей или ссылки на них в данной задаче не требуется.
+Операторы сравнения должны сравнивать оборачиваемые объекты, игнорируя логер. При копировании (перемещении) должны копироваться (перемещаться) и логер, и оборачиваемый объект.
 
-### Ограничения на поддерживаемые структуры
+Если в одном выражении происходит обращение к оборачиваемому объекту и перемещение неуказателя, поведение не определено. Копирование создаёт новый объект, обращения к которому должны учитываться _отдельно_.
 
-В качестве шаблонного аргумента `Describe` могут использоваться только классы, удовлетворяющее слелующим условиям:
+### Бонус: аллокаторы и small buffer optimization (+2 у.е.)
 
-- не юнионы,
-- нет пользовательских конструкторов и деструкторов,
-- нет виртуальных методов,
-- нет базовых классов,
-- все поля публичны, не имеют значений по умолчанию и их типы
-  - либо скалярны,
-  - либо соответствуют этим требованиям.
+Поддержите пользовательские аллокаторы и small buffer optimization для логеров. Обратите внимание, что мы пишем на C++20, и вместо placement new следует использовать метод `std::allocator_traits<Alloc>::construct`, который в свою очередь вызовет `std::construct_at`, а вместо прямого вызова деструктора следует использовать метод `std::allocator_traits<Alloc>::destroy`, который в свою очередь вызовет `std::destroy_at`. Более того, так как мы не знаем тип логгера в момент создания `Spy`, нам придётся использовать аллокатор на тип `std::byte`. Однако функции `construct` и `destroy` принимают шаблонным параметром тип, который необходимо сконструировать, поэтому один и тот же аллокатор может аллоцировать память для и конструировать любые логгеры.
 
-В противном случае поведение не определено.
+Ознакомьтесь с именованым набором требований [AllocatorAwareContainer](https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer). Прочитайте занимательную [статью](https://www.foonathan.net/2015/10/allocatorawarecontainer-propagation-pitfalls/) про смешные трейты `propagate_on_container_copy_assignment` и `propagate_on_container_move_assignment`. Не забудьте реалоцировать память в случае мув-присваивания `Spy` с ложным `propagate_on_container_move_assignment` и разными аллокаторами.
 
-Решение может ограничивать максимальное количество полей, но классы, содержащие не более 100 полей с учётом полей-аннотаций должны поддерживаться. Если переданная структура содержит больше полей, чем допускает решение, должна выводиться ошибка компиляции.
+### Бонус 2: обобщённая таблица виртуальных вызовов (без баллов, без тестов, для безумцев)
 
-Если последнее поле структуры имеет тип `Annotate`, поведение не определено.
-
-### Бонусный уровень
-
-Используя stateful metaprogramming, реализуйте поддержку произвольного числа полей. Решения бонуса без stateful metaprogramming будут банится на этапе код ревью.
+Если вам совсем нечем заняться, придумайте (или украдите) дизайн и реализуйте обобщённый механизм таблиц виртуальных вызовов. В результате класс `Spy` должен уметь "убирать" стёртую функцию мува по запросу пользователя через политику "move-only" и весить на несколько байт меньше. Также должна быть возможность сделать политику вынесения таблицы виртуальных вызовов в статическое хранилище (в таком случае виртуальные вызовы будут работать за 2 индерекции, но сам `Spy` будет весить ещё меньше).
 
 ## Пример
 
-```cpp
-// some macro magic
-// to avoid handmade names for annotation fields
-
-#define MPC_CONCAT(a,b)  a##b
-#define MPC_ANNOTATION_LABEL(a) MPC_CONCAT(_annotion_, a)
-#define MPC_ANNOTATE(...) Annotate<__VA_ARGS__> MPC_ANNOTATION_LABEL(__COUNTER__);
-
-// MPC_ANNOTATE(A, B, C) expands to
-// `Annotate<A, B, C> some_ugly_unique_name`
-
-struct Transient;
-struct Crc32;
-struct NoIo;
-struct NoCompare;
-
-template <class Algorithm>
-struct Checksum;
-
-struct S {
-    int x; // no annotation
-
-    MPC_ANNOTATE(Transient, NoIo)
-    char y; // annotated with Transient, NoIo
-
-    MPC_ANNOTATE(Transient)
-    MPC_ANNOTATE(NoCompare)
-    float z; // annotated with Transient, NoCompare
-
-    MPC_ANNOTATE(NoIo, Checksum<Crc32>)
-    uint64_t w; // annotated with NoIo, Checksum<Crc32>
+```c++
+struct Holder {
+    int x = 0;
+    bool isPositive() const {
+        return x > 0;
+    }
 };
 
+Spy s{Holder{}};
+static_assert(std::semiregular<decltype(s)>);
 
-static_assert(std::is_same_v<Describe<S>::Field<0>::Type, int>);
-static_assert(std::is_same_v<Describe<S>::Field<0>::Annotations, Annotate<>>);
+s.setLogger([](auto n) { std::cout << n << std::endl; });
 
+s->isPositive() && s->x--; // prints 1
+s->x++ + s->x++; // prints 2
+s->isPositive() && s->x--; // prints 2
 
-static_assert(Describe<S>::Field<1>::has_annotation_class<NoCompare> == false);
-static_assert(Describe<S>::Field<1>::has_annotation_template<Checksum> == false);
-static_assert(Describe<S>::Field<1>::has_annotation_class<NoIo> == true);
+s.setLogger([dummy = std::unique_ptr<int>()](auto n) {}); // compilation error
 
-static_assert(std::is_same_v<Describe<S>::Field<2>::Annotations, Annotate<Transient, NoCompare>>);
+// -----------------------------------
 
-static_assert(Describe<S>::Field<3>::has_annotation_template<Checksum> == true);
-static_assert(std::is_same_v<Describe<S>::Field<3>::FindAnnotation<Checksum>, Checksum<Crc32>>);
+struct MoveOnly {
+    MoveOnly() = default;
+
+    MoveOnly(MoveOnly&&) = default;
+    MoveOnly& operator =(MoveOnly&&) = default;
+
+    MoveOnly(const MoveOnly&) = delete;
+    MoveOnly& operator =(const MoveOnly&) = delete;
+
+    ~MoveOnly() noexcept = default;
+};
+
+Spy t{MoveOnly{}};
+
+s.setLogger([dummy = std::unique_ptr<int>()](auto n) {}); // ok
+
+static_assert(std::movable<decltype(t)>);
+static_assert(!std::copyable<decltype(t)>);
 ```
+
+## Вопросы для размышлений
+
+1. С какими проблемами мы бы столкнулись, если бы захотели добавить константную версию оператора `->`?
+
+2. Как бы вы модифицировали класс `Spy`, чтобы поддержать обращения к оборачиваемому объекту из нескольких потоков?
+
+3. Можем ли мы аккуратно обработать всё случаи пометок `noexcept` стёртых методов логгера?
+
+4. Хотелось бы, чтобы при перемещении внутри выражения счётчик сохранялся, как будто обращения происходят к одному и тому же объекту:
+
+   `(a->doSmth(), (b = std::move(a))->doSmth()); // 2`
+
+   Подумайте, как это можно реализовать без динамического выделения памяти? Почему такое решение будет работать? Если захочется, реализуйте.
 
 ## Формальности
 
-**Дедлайн:** 04:00 10.12.22.
-
-**Баллы:** 3+1 уе.
-
-Классы `Annotate`, `Descriptor` должны быть доступны в глобальном неймспейсе при подключении заголовочного файла `reflect.hpp`. Этот заголовочный файл должен находиться в папке `task5`, расположенной в корне репозитория.
+**Баллы:** 300 + 200
 
 Код пушьте в ветку `task5` и делайте pull request в `master`.
 
-Используйте всю мощь стандартной библиотеки.
+Используйте всю мощь стандартной библиотеки, кроме `std::function` и `std::any`.
+
+Отвечать на вопросы для размышлений необязательно.
+
+## Тесты
+
+Тесты этого задания собираются с address и UB санитайзерами. Будьте осторожны, делая бонусный уровень!

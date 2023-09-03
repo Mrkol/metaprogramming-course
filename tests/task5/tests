@@ -1,2 +1,2 @@
-main static 30
-chunky stress 10
+main static,main 3000
+sbo sbo 2000

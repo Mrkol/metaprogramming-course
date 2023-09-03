@@ -1,2 +1,2 @@
-main static,main 30
-sbo sbo 20
+main type_lists,value_sequences 4000
+group_by group_by 1000

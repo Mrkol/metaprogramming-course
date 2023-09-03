@@ -1,1 +1,2 @@
-main main,stress 30
+main main,nocompile 2000
+unsorted unsorted 1000

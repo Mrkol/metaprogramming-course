@@ -1,157 +1,74 @@
-#include <reflect.hpp>
-#include <type_traits>
-#include "annotations.hpp"
+#include <Spy.hpp>
+#include <commons/RegularityWitness.hpp>
+#include <concepts>
 
 
-void checkEmpty() {
-  using namespace mpc::annotations;
+namespace mpc::detail {
 
-  struct Empty {};
-  static_assert(Describe<Empty>::num_fields == 0);
+template <class Logger, class T>
+concept ProperSpyLogger = requires(Spy<T>& spy, Logger&& logger) {
+  spy.setLogger(std::forward<Logger>(logger));
+};
+
+template <RegularityPolicy options>
+struct EmptyLogger : RegularityWitness<options> {
+  void operator ()(unsigned int) {}
+};
+
 }
 
-void checkReflection() {
-  using namespace mpc::annotations;
+void checkConceptPreservation() {
+  using mpc::RegularityPolicy;
+  using mpc::RegularityWitness;
 
-  struct S1 {
-    int x;
+  using Semiregular = RegularityWitness<RegularityPolicy{}>;
+  using Copyable = RegularityWitness<RegularityPolicy{ .default_constructor = false }>;
+  using NoCopy = RegularityWitness<RegularityPolicy{ .copy_constructor = false, .copy_assignment = false }>;
+  using NoMove = RegularityWitness<RegularityPolicy{ .move_constructor = false, .move_assignment = false }>;
+  using NoCopyMoveConstructor = RegularityWitness<RegularityPolicy{ .copy_constructor = false, .move_constructor = false }>;
+  using NoCopyMoveAssignment = RegularityWitness<RegularityPolicy{ .copy_assignment = false, .move_assignment = false }>;
+  using BadDestructor = RegularityWitness<RegularityPolicy{ .nothrow_destructor = false }>;
 
-    MPC_ANNOTATE(Transient, NoIo) char y;
+  static_assert(std::regular<Spy<int>>);
 
-    MPC_ANNOTATE(Transient)
-    MPC_ANNOTATE(NoCompare)
-    float z;
+  static_assert(std::semiregular<Spy<Semiregular>>);
+  static_assert(!std::regular<Spy<Semiregular>>);
 
-    bool u, v;
+  static_assert(std::copyable<Spy<Copyable>>);
+  static_assert(!std::semiregular<Spy<Copyable>>);
 
-    MPC_ANNOTATE(NoIo, Adapt<A, B, C>)
-    long long w;
-  };
+  static_assert(std::movable<Spy<NoCopy>>);
+  static_assert(!std::copyable<Spy<NoCopy>>);
 
-  static_assert(Describe<S1>::num_fields == 6);
+  static_assert(std::semiregular<Spy<NoMove>>);
+  static_assert(!std::regular<Spy<NoMove>>);
 
-  static_assert(std::is_same_v<Describe<S1>::Field<0>::Type, int>);
-  static_assert(std::is_same_v<Describe<S1>::Field<1>::Type, char>);
-  static_assert(std::is_same_v<Describe<S1>::Field<2>::Type, float>);
-  static_assert(std::is_same_v<Describe<S1>::Field<3>::Type, bool>);
-  static_assert(std::is_same_v<Describe<S1>::Field<4>::Type, bool>);
-  static_assert(std::is_same_v<Describe<S1>::Field<5>::Type, long long>);
-
-  static_assert(std::is_same_v<Describe<S1>::Field<0>::Annotations, Annotate<>>);
-  static_assert(std::is_same_v<Describe<S1>::Field<1>::Annotations, Annotate<Transient, NoIo>>);
-  static_assert(std::is_same_v<Describe<S1>::Field<2>::Annotations, Annotate<Transient, NoCompare>>);
-  static_assert(std::is_same_v<Describe<S1>::Field<3>::Annotations, Annotate<>>);
-  static_assert(std::is_same_v<Describe<S1>::Field<4>::Annotations, Annotate<>>);
-  static_assert(std::is_same_v<Describe<S1>::Field<5>::Annotations, Annotate<NoIo, Adapt<A, B, C>>>);
+  static_assert(!std::movable<Spy<NoCopyMoveConstructor>>);
+  static_assert(!std::movable<Spy<NoCopyMoveAssignment>>);
+  static_assert(!std::movable<Spy<BadDestructor>>);
 }
 
-void checkLookup() {
-  using namespace mpc::annotations;
+void checkLoggerSafety() {
+  using mpc::RegularityPolicy;
+  using mpc::RegularityWitness;
+  using mpc::detail::ProperSpyLogger;
+  using mpc::detail::EmptyLogger;
 
-  struct S2 {
-    MPC_ANNOTATE(Transient, NoIo) char y;
+  constexpr auto copyable_opt = RegularityPolicy{ .default_constructor = false };
+  constexpr auto move_only_opt = RegularityPolicy{ .copy_constructor = false, .copy_assignment = false };
+  constexpr auto bad_destructor_opt = RegularityPolicy{ .nothrow_destructor = false };
 
-    MPC_ANNOTATE(Transient) MPC_ANNOTATE(NoCompare) float z;
+  static_assert(ProperSpyLogger<EmptyLogger<copyable_opt>, RegularityWitness<copyable_opt>>);
+  static_assert(!ProperSpyLogger<EmptyLogger<move_only_opt>, RegularityWitness<copyable_opt>>);
+  static_assert(!ProperSpyLogger<EmptyLogger<bad_destructor_opt>, RegularityWitness<copyable_opt>>);
 
-    bool u;
-
-    MPC_ANNOTATE(NoIo, Adapt<A, B, C>) long long w;
-  };
-
-  static_assert(Describe<S2>::Field<0>::has_annotation_class<Transient>);
-  static_assert(Describe<S2>::Field<0>::has_annotation_class<NoIo>);
-  static_assert(!Describe<S2>::Field<0>::has_annotation_class<NoCompare>);
-
-  static_assert(Describe<S2>::Field<1>::has_annotation_class<Transient>);
-  static_assert(!Describe<S2>::Field<1>::has_annotation_class<NoIo>);
-  static_assert(Describe<S2>::Field<1>::has_annotation_class<NoCompare>);
-
-  static_assert(!Describe<S2>::Field<2>::has_annotation_class<Transient>);
-  static_assert(!Describe<S2>::Field<2>::has_annotation_template<SerialId>);
-
-  static_assert(Describe<S2>::Field<3>::has_annotation_class<NoIo>);
-  static_assert(Describe<S2>::Field<3>::has_annotation_class<Adapt<A, B, C>>);
-  static_assert(!Describe<S2>::Field<3>::has_annotation_class<NoCompare>);
-
-  static_assert(Describe<S2>::Field<3>::has_annotation_template<Adapt>);
-  static_assert(!Describe<S2>::Field<3>::has_annotation_template<SerialId>);
-}
-
-void checkMatching() {
-  using namespace mpc::annotations;
-
-  struct S3 {
-    MPC_ANNOTATE(SerialId<SizeT<1>>, SerialId<SizeT<2>>, SerialId<SizeT<3>>) char x;
-    MPC_ANNOTATE(Adapt<A, B, C>, SerialId<SizeT<4>>) float y;
-  };
-
-  using XDescriptor = Describe<S3>::Field<0>;
-  using YDescriptor = Describe<S3>::Field<1>;
-
-  static_assert(CanFindAnnotationTemplate<XDescriptor, SerialId>);
-  static_assert(!CanFindAnnotationTemplate<XDescriptor, Adapt>);
-
-  static_assert(CanFindAnnotationTemplate<YDescriptor, SerialId>);
-  static_assert(CanFindAnnotationTemplate<YDescriptor, Adapt>);
-
-  constexpr int found_id = XDescriptor::FindAnnotation<SerialId>::id;
-  static_assert(found_id == 1 || found_id == 2 || found_id == 3);
-
-  static_assert(std::is_same_v<YDescriptor::FindAnnotation<Adapt>, Adapt<A, B, C>>);
-  static_assert(std::is_same_v<YDescriptor::FindAnnotation<SerialId>, SerialId<SizeT<4>>>);
-}
-
-void checkUserDefined() {
-  struct UserDefined {};
-  struct S4 {
-    UserDefined x;
-  };
-
-  static_assert(Describe<S4>::num_fields == 1);
-  static_assert(std::is_same_v<Describe<S4>::Field<0>::Type, UserDefined>);
-}
-
-void checkMultiple() {
-  using namespace mpc::annotations;
-
-  struct S5 {
-    MPC_ANNOTATE(SerialId<SizeT<0>>, SerialId<SizeT<1>>)
-    MPC_ANNOTATE(SerialId<SizeT<1>>, SerialId<SizeT<2>>)
-    MPC_ANNOTATE(SerialId<SizeT<2>>, SerialId<SizeT<3>>)
-    MPC_ANNOTATE(SerialId<SizeT<3>>, SerialId<SizeT<4>>)
-    MPC_ANNOTATE(SerialId<SizeT<4>>, SerialId<SizeT<5>>)
-    int x;
-  };
-
-  static_assert(Describe<S5>::num_fields == 1);
-  static_assert(std::is_same_v<Describe<S5>::Field<0>::Type, int>);
-
-  using ExpectedAnnotations = Annotate<
-    SerialId<SizeT<0>>,
-    SerialId<SizeT<1>>, SerialId<SizeT<1>>,
-    SerialId<SizeT<2>>, SerialId<SizeT<2>>,
-    SerialId<SizeT<3>>, SerialId<SizeT<3>>,
-    SerialId<SizeT<4>>, SerialId<SizeT<4>>,
-    SerialId<SizeT<5>>
-  >;
-  static_assert(std::is_same_v<Describe<S5>::Field<0>::Annotations, ExpectedAnnotations>);
-
-  static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<0>>>);
-  static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<1>>>);
-  static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<2>>>);
-  static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<3>>>);
-  static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<4>>>);
-  static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<5>>>);
-  static_assert(Describe<S5>::Field<0>::has_annotation_class<SerialId<SizeT<0>>>);
-  static_assert(Describe<S5>::Field<0>::has_annotation_template<SerialId>);
+  static_assert(ProperSpyLogger<EmptyLogger<move_only_opt>, RegularityWitness<move_only_opt>>);
+  static_assert(ProperSpyLogger<EmptyLogger<copyable_opt>, RegularityWitness<move_only_opt>>);
+  static_assert(!ProperSpyLogger<EmptyLogger<bad_destructor_opt>, RegularityWitness<move_only_opt>>);
 }
 
 int main() {
-  checkEmpty();
-  checkReflection();
-  checkLookup();
-  checkMatching();
-  checkUserDefined();
-  checkMultiple();
+  checkConceptPreservation();
+  checkLoggerSafety();
   return 0;
 }
