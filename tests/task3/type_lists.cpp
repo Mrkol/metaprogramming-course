@@ -1,6 +1,7 @@
 #include <type_lists.hpp>
 #include <commons/metafunctions.hpp>
 #include <commons/assert.hpp>
+#include <cstdint>
 
 
 // If you can find a better way of doing this, contact me
@@ -163,7 +164,7 @@ void checkTransforms() {
 
   using type_lists::Filter;
   static_assert(std::same_as
-    < ToTuple<Filter<Fits, FromTuple<TTuple<int, bool, uint64_t, char, int64_t, short>>>>
+    < ToTuple<Filter<Fits, FromTuple<TTuple<int, bool, std::uint64_t, char, std::int64_t, short>>>>
     , TTuple<int, bool, char, short>
     >);
 
@@ -173,7 +174,7 @@ void checkTransforms() {
     >);
   
   static_assert(std::same_as
-    < ToTuple<Take<5, Filter<Fits, Cycle<FromTuple<TTuple<int, bool, uint64_t>>>>>>
+    < ToTuple<Take<5, Filter<Fits, Cycle<FromTuple<TTuple<int, bool, std::uint64_t>>>>>>
     , TTuple<int, bool, int, bool, int>
     >);
 }
@@ -193,9 +194,9 @@ void checkReducers() {
     < ToTuple<Scanl
           < MaxBySize
           , char
-          , FromTuple<TTuple<char, bool, short, char, int, short, int64_t, int>>
+          , FromTuple<TTuple<char, bool, short, char, int, short, std::int64_t, int>>
           >>
-    , TTuple<char, char, char, short, short, int, int, int64_t, int64_t>
+    , TTuple<char, char, char, short, short, int, int, std::int64_t, std::int64_t>
     >);
 
   using type_lists::Foldl;
@@ -204,9 +205,9 @@ void checkReducers() {
     < Foldl
       < MaxBySize
       , char
-      , FromTuple<TTuple<char, bool, short, char, int, short, int64_t, int>>
+      , FromTuple<TTuple<char, bool, short, char, int, short, std::int64_t, int>>
       >
-    , int64_t
+    , std::int64_t
     >);
 
   static_assert(
