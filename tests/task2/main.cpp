@@ -213,7 +213,8 @@ int main(int, char**)
   {
     std::vector<int> vec(42);
     std::iota(vec.begin(), vec.end(), 0);
-    const Slice slice(vec.begin(), vec.size(), 3);
+    const Slice slice(vec.begin(), vec.size() / 3, 3);
+    MPC_REQUIRE(eq, vec.size() / 3, slice.Size());
     for (std::size_t i = 0; i < vec.size(); i += 3)
       MPC_REQUIRE(eq, slice[i/3], vec[i]);
 
@@ -250,5 +251,55 @@ int main(int, char**)
 
     Slice<int, std::dynamic_extent, dynamic_stride> dynStrideDynextAll = all;
     MPC_REQUIRE(eq, all, dynStrideDynextAll);
+  }
+
+  {
+    std::array<int, 42> arr;
+    std::iota(arr.begin(), arr.end(), 0);
+    Slice all = arr;
+
+    Slice<int, 21, 2> even1(arr.begin(), arr.size() / 2, 2);
+    Slice even2 = all.Skip<2>();
+    Slice even3 = all.Skip(2);
+    MPC_REQUIRE(eq, even1, even2);
+    MPC_REQUIRE(eq, even1, even3);
+
+    Slice<int, 5, 10> tenth1(arr.data(), 5, 10);
+    Slice tenth2 = all.Skip(10);
+    Slice tenth3 = all.Skip<10>();
+    MPC_REQUIRE(eq, tenth1, tenth2);
+    MPC_REQUIRE(eq, tenth1, tenth3);
+
+    Slice<int, 3, 10> someLast1(arr.data() + 20, 3, 10);
+    Slice someLast2 = tenth1.DropFirst(2);
+    Slice someLast3 = tenth1.Last(3);
+    Slice someLast4 = tenth1.DropFirst<2>();
+    Slice someLast5 = tenth1.Last<3>();
+    MPC_REQUIRE(eq, someLast1, someLast2);
+    MPC_REQUIRE(eq, someLast2, someLast3);
+    MPC_REQUIRE(eq, someLast3, someLast4);
+    MPC_REQUIRE(eq, someLast4, someLast5);
+    MPC_REQUIRE(true, std::ranges::equal(someLast5, std::array{20, 30, 40}));
+    MPC_REQUIRE(eq, someLast1[1], 30);
+    MPC_REQUIRE(eq, someLast2[1], 30);
+    MPC_REQUIRE(eq, someLast3[1], 30);
+    MPC_REQUIRE(eq, someLast4[1], 30);
+    MPC_REQUIRE(eq, someLast5[1], 30);
+
+    std::vector<int> arr2(arr.begin(), arr.end());
+    Slice<int, 3, 10> someFirst1(arr2.data(), 3, 10);
+    Slice someFirst2 = Slice(arr2).Skip<2>().Skip(5).DropLast<2>();
+    Slice someFirst3 = Slice(arr).Skip<5>().Skip<2>().First(3);
+    MPC_REQUIRE(true, std::ranges::equal(someFirst1, someFirst2));
+    MPC_REQUIRE(true, std::ranges::equal(someFirst2, someFirst3));
+    MPC_REQUIRE(true, std::ranges::equal(someFirst1, someFirst3));
+    MPC_REQUIRE(true, std::ranges::equal(someFirst1, std::array{0, 10, 20}));
+    MPC_REQUIRE(eq, someFirst1[2], 20);
+    MPC_REQUIRE(eq, someFirst2[2], 20);
+    MPC_REQUIRE(eq, someFirst3[2], 20);
+    MPC_REQUIRE(eq, someFirst2.Size(), 3);
+    MPC_REQUIRE(eq, someFirst3.Size(), 3);
+    static_assert(someFirst1.Size() == 3);
+    static_assert(someFirst3.Stride() == 10);
   }
 }
