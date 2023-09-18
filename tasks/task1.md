@@ -27,7 +27,7 @@
 
 Не забудьте проставить ассёрты на выходы за границы во всех методах.
 
-Наконец, забудьте ознакомиться с [тестами](https://github.com/Mrkol/metaprogramming-course/blob/master/tests/task1).
+Наконец, не забудьте ознакомиться с [тестами](https://github.com/Mrkol/metaprogramming-course/blob/master/tests/task1).
 
 ## Формальности
 

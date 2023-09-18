@@ -53,6 +53,40 @@ MPC_STATIC_REQUIRE_TRUE((requires() {
     requires std::is_trivially_copyable_v<Span<int, 42>>;
   }));
 
+template<class T>
+concept IsConstLvalRef = std::is_lvalue_reference_v<T> && std::is_const_v<std::remove_reference_t<T>>;
+
+MPC_STATIC_REQUIRE_TRUE((requires(Span<int const> s1, Span<int const, 42> s2, size_t idx) {
+    { *s1.begin() } -> IsConstLvalRef;
+    { *s1.end() } -> IsConstLvalRef;
+    { *s2.begin() } -> IsConstLvalRef;
+    { *s2.end() } -> IsConstLvalRef;
+    { s1[idx] } -> IsConstLvalRef;
+    { s2[idx] } -> IsConstLvalRef;
+    { s1.Front() } -> IsConstLvalRef;
+    { s2.Front() } -> IsConstLvalRef;
+    { s1.Back() } -> IsConstLvalRef;
+    { s2.Back() } -> IsConstLvalRef;
+  }));
+
+template<class T>
+concept IsNonConstLvalRef = std::is_lvalue_reference_v<T> && !std::is_const_v<std::remove_reference_t<T>>;
+
+// Span variable being const simply means that you can't rebind it to a different container, not
+// that you can't modify the data inside the underlying container through it!
+MPC_STATIC_REQUIRE_TRUE((requires(const Span<int> s1, const Span<int, 42> s2, size_t idx) {
+    { *s1.begin() } -> IsNonConstLvalRef;
+    { *s1.end() } -> IsNonConstLvalRef;
+    { *s2.begin() } -> IsNonConstLvalRef;
+    { *s2.end() } -> IsNonConstLvalRef;
+    { s1[idx] } -> IsNonConstLvalRef;
+    { s2[idx] } -> IsNonConstLvalRef;
+    { s1.Front() } -> IsNonConstLvalRef;
+    { s2.Front() } -> IsNonConstLvalRef;
+    { s1.Back() } -> IsNonConstLvalRef;
+    { s2.Back() } -> IsNonConstLvalRef;
+  }));
+
 int main(int, char**)
 {
   {
@@ -63,6 +97,9 @@ int main(int, char**)
     MPC_REQUIRE(eq, all.Size(), vec.size());
     for (auto elem : all)
       MPC_REQUIRE(eq, elem, vec[elem]);
+
+    MPC_REQUIRE(eq, all.Front(), vec.front());
+    MPC_REQUIRE(eq, all.Back(), vec.back());
 
     Span first10 = all.First(10);
     MPC_REQUIRE(eq, first10.Size(), 10u);
@@ -106,6 +143,9 @@ int main(int, char**)
 
     for (std::size_t i = 0; i < vec.size(); i += 2)
       ++span[i];
+
+    for (std::size_t i = 0; i < span.Size(); ++i)
+      MPC_REQUIRE(eq, span[i], vec[i]);
 
     Span<const int> cspan = vec;
     for (std::size_t i = 0; i < cspan.Size(); ++i)
