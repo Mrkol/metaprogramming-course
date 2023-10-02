@@ -11,8 +11,13 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-vscode.cpptools-extension-pack"
-			]
+				"ms-vscode.cpptools-extension-pack",
+				"llvm-vs-code-extensions.vscode-clangd"
+			],
+			"settings":
+			{
+				"C_Cpp.intelliSenseEngine": "disabled"
+			}
 		}
 	},
 
