@@ -320,11 +320,109 @@ void checkZips() {
     >);
 }
 
+template<class T>
+using TupTake3 = type_lists::ToTuple<type_lists::Take<3, T>>;
+
+void checkCornercases() {
+  using type_tuples::TTuple;
+
+  using type_lists::Empty;
+  using type_lists::Cycle;
+  using type_lists::Nil;
+  using type_lists::ToTuple;
+  using type_lists::Map;
+  using type_lists::Inits;
+  using type_lists::Tails;
+  using type_lists::Iterate;
+  using type_lists::Take;
+
+  static_assert(Empty<Cycle<Nil>>);
+
+  static_assert(
+    std::same_as
+    < ToTuple
+      < Take
+        < 4
+        , Cycle
+          < Iterate
+            < Starred
+            , int
+            >
+          >
+        >
+      >
+    , TTuple<int, int*, int**, int***>
+    >
+  );
+
+  using SomeCyclesOfInts = Map<TupTake3, Map<Cycle, Inits<Iterate<Starred, int>>>>;
+  static_assert(
+    std::same_as
+    < TupTake3<SomeCyclesOfInts>
+    , TTuple
+      < TTuple<>
+      , TTuple<int, int, int>
+      , TTuple<int, int*, int>
+      >
+    >
+  );
+
+  static_assert(
+    std::same_as
+    < ToTuple
+      < Take
+        < 4
+        , Map
+          < ToTuple
+          , Inits
+            < Iterate
+              < Starred
+              , int
+              >
+            >
+          >
+        >
+      >
+    , TTuple
+      < TTuple<>
+      , TTuple<int>
+      , TTuple<int, int*>
+      , TTuple<int, int*, int**>
+      >
+    >
+  );
+
+  static_assert(
+    std::same_as
+    < ToTuple
+      < Take
+        < 3
+        , Map
+          < TupTake3
+          , Tails
+            < Iterate
+              < Starred
+              , int
+              >
+            >
+          >
+        >
+      >
+    , TTuple
+      < TTuple<int, int*, int**>
+      , TTuple<int*, int**, int***>
+      , TTuple<int**, int***, int****>
+      >
+    >
+  );
+}
+
 int main() {
   checkSimpleOps();
   checkTransforms();
   checkReducers();
   checkSublists();
   checkZips();
+  checkCornercases();
   return 0;
 }

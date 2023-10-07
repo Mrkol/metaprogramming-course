@@ -1,8 +1,9 @@
-#include <concepts>
-#include <cstdint>
-
 #include <type_tuples.hpp>
 #include <type_lists.hpp>
+
+#include <concepts>
+#include <cstdint>
+#include <type_traits>
 
 
 using type_tuples::TTuple;
@@ -12,6 +13,7 @@ using type_lists::FromTuple;
 using type_lists::Map;
 using type_lists::Take;
 using type_lists::Cycle;
+using type_lists::Iterate;
 using type_lists::GroupBy;
 
 
@@ -41,15 +43,43 @@ static_assert(
 
 static_assert(
   std::same_as
-    < ToTuple<Map<ToTuple, Take<5, GroupBy<CompareBySize, Cycle<FromTuple<TTuple<char, bool, int, int, char>>>>>>>
-    , TTuple
-      < TTuple<char, bool>
-      , TTuple<int, int>
-      , TTuple<char, char, bool>
-      , TTuple<int, int>
-      , TTuple<char, char, bool>
+  < ToTuple<Map<ToTuple, Take<5, GroupBy<CompareBySize, Cycle<FromTuple<TTuple<char, bool, int, int, char>>>>>>>
+  , TTuple
+    < TTuple<char, bool>
+    , TTuple<int, int>
+    , TTuple<char, char, bool>
+    , TTuple<int, int>
+    , TTuple<char, char, bool>
+    >
+  >);
+
+template<class T>
+using Starred = T*;
+
+template<class, class>
+struct FalseOP {
+  constexpr static bool Value = false;
+};
+
+static_assert(
+  std::same_as
+  < ToTuple
+    < Map
+      < ToTuple
+      , Take
+        < 4
+        , GroupBy<FalseOP, Iterate<Starred, int>>
+        >
       >
-    >);
+    >
+  , TTuple
+    < TTuple<int>
+    , TTuple<int*>
+    , TTuple<int**>
+    , TTuple<int***>
+    >
+  >
+);
 
 
 int main() { 
