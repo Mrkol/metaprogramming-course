@@ -132,6 +132,29 @@ int main(int, char**)
     MPC_REQUIRE(eq, all.Data(), arr.data());
     for (auto elem : all)
       MPC_REQUIRE(eq, elem, arr[elem]);
+
+    MPC_REQUIRE(eq, all.Front(), arr.front());
+    MPC_REQUIRE(eq, all.Back(), arr.back());
+
+    Span first10 = all.First(10);
+    MPC_REQUIRE(eq, first10.Size(), 10u);
+    for (std::size_t i = 0; i < 10; ++i)
+      MPC_REQUIRE(eq, first10[i], arr[i]);
+
+    Span staticFirst10 = all.First<10>();
+    static_assert(staticFirst10.Size() == 10);
+    for (std::size_t i = 0; i < 10; ++i)
+      MPC_REQUIRE(eq, staticFirst10[i], arr[i]);
+
+    Span last10 = all.Last(10);
+    MPC_REQUIRE(eq, last10.Size(), 10u);
+    for (std::size_t i = 0; i < 10; ++i)
+      MPC_REQUIRE(eq, last10[i], arr[42 - 10 + i]);
+
+    Span staticLast10 = all.Last<10>();
+    static_assert(staticLast10.Size() == 10);
+    for (std::size_t i = 0; i < 10; ++i)
+      MPC_REQUIRE(eq, staticLast10[i], arr[42 - 10 + i]);
   }
 
   {
