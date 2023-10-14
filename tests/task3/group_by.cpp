@@ -61,6 +61,11 @@ struct FalseOP {
   constexpr static bool Value = false;
 };
 
+template<class L, class R>
+struct IsSame {
+  constexpr static bool Value = std::is_same_v<L, R>;
+};
+
 static_assert(
   std::same_as
   < ToTuple
@@ -82,6 +87,6 @@ static_assert(
 );
 
 
-int main() { 
+int main() {
   return 0;
 }
