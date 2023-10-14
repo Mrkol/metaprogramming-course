@@ -73,7 +73,7 @@ static_assert(
       < ToTuple
       , Take
         < 4
-        , GroupBy<FalseOP, Iterate<Starred, int>>
+        , GroupBy<IsSame, Iterate<Starred, int>>
         >
       >
     >
