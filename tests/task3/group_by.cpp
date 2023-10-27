@@ -56,9 +56,9 @@ static_assert(
 template<class T>
 using Starred = T*;
 
-template<class, class>
-struct FalseOP {
-  constexpr static bool Value = false;
+template<class L, class R>
+struct IsSame {
+  constexpr static bool Value = std::is_same_v<L, R>;
 };
 
 static_assert(
@@ -68,7 +68,7 @@ static_assert(
       < ToTuple
       , Take
         < 4
-        , GroupBy<FalseOP, Iterate<Starred, int>>
+        , GroupBy<IsSame, Iterate<Starred, int>>
         >
       >
     >
@@ -82,6 +82,6 @@ static_assert(
 );
 
 
-int main() { 
+int main() {
   return 0;
 }
