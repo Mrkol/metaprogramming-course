@@ -343,11 +343,9 @@ void checkCornercases() {
     < ToTuple
       < Take
         < 4
-        , Cycle
-          < Iterate
-            < Starred
-            , int
-            >
+        , Iterate
+          < Starred
+          , int
           >
         >
       >
