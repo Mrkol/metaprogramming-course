@@ -1,9 +1,9 @@
+#include <Spy.hpp>
+
 #include <commons/assert.hpp>
 #include <commons/RegularityWitness.hpp>
 
 #include "mocks.hpp"
-
-#include <Spy.hpp>
 
 
 template <size_t pad_size = 0>

@@ -41,8 +41,8 @@ void checkWithInts() {
   std::unique_ptr<Animal> cat{new Cat()};
 
   MPC_REQUIRE(nullopt, MyMapper::map(*cow));
-  MPC_REQUIRE(eq, *MyMapper::map(*cat), 2);
-  MPC_REQUIRE(eq, *MyMapper::map(*dog), 3);
+  MPC_REQUIRE(eq, MyMapper::map(*cat).value(), 2);
+  MPC_REQUIRE(eq, MyMapper::map(*dog).value(), 3);
 }
 
 void checkWithStrings() {
@@ -62,10 +62,10 @@ void checkWithStrings() {
   std::unique_ptr<Animal> race_horse{new RaceHorse()};
 
   MPC_REQUIRE(nullopt, MyMapper::map(*cow));
-  MPC_REQUIRE(eq, *MyMapper::map(*cat), "Meow"sv);
-  MPC_REQUIRE(eq, *MyMapper::map(*dog), "Bark"sv);
-  MPC_REQUIRE(eq, *MyMapper::map(*st_bernard), "Baaark"sv);
-  MPC_REQUIRE(eq, *MyMapper::map(*race_horse), "Neigh"sv);
+  MPC_REQUIRE(eq, MyMapper::map(*cat).value(), "Meow"sv);
+  MPC_REQUIRE(eq, MyMapper::map(*dog).value(), "Bark"sv);
+  MPC_REQUIRE(eq, MyMapper::map(*st_bernard).value(), "Baaark"sv);
+  MPC_REQUIRE(eq, MyMapper::map(*race_horse).value(), "Neigh"sv);
 }
 
 void checkEmpty() {
@@ -80,8 +80,18 @@ void checkEmpty() {
   MPC_REQUIRE(nullopt, MyMapper::map(*dog));
 }
 
+void checkStray() {
+  using MyMapper = PolymorphicMapper<Animal, int, Mapping<Dog, 42>, Mapping<Animal, 1>>;
+  std::unique_ptr<Animal> dog{new Dog()};
+  std::unique_ptr<Animal> cat{new Cat()};
+
+  MPC_REQUIRE(eq, MyMapper::map(*dog).value(), 42);
+  MPC_REQUIRE(eq, MyMapper::map(*cat).value(), 1);
+}
+
 int main() {
   checkWithInts();
   checkWithStrings();
   checkEmpty();
+  checkStray();
 }

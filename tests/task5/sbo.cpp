@@ -1,21 +1,33 @@
+#include <Spy.hpp>
+
 #include <commons/RegularityWitness.hpp>
 #include <commons/assert.hpp>
 
 #include "mocks.hpp"
 
-#include <Spy.hpp>
 
+#include <map>
+#include <set>
 
 template<class T, bool reallocate>
 class SpyAllocator : private std::allocator<T> {
+  std::map<T*, size_t> allocations_;
+  std::set<void*> constructed_;
 public:
   SpyAllocator() = default;
   SpyAllocator(std::size_t id) : id_{id} {}
+
+  SpyAllocator(const SpyAllocator& other) : std::allocator<T>(other) {}
+  SpyAllocator(SpyAllocator&&) = default;
 
   friend bool operator==(const SpyAllocator&, const SpyAllocator&) = default;
 
   using propagate_on_container_copy_assignment = std::integral_constant<bool, !reallocate>;
   using propagate_on_container_move_assignment = std::integral_constant<bool, !reallocate>;
+
+  SpyAllocator& operator=(const SpyAllocator&) requires propagate_on_container_copy_assignment::value { return *this; }
+
+  SpyAllocator& operator=(SpyAllocator&&) requires propagate_on_container_move_assignment::value = default;
 
   using value_type = T;
 
@@ -24,21 +36,28 @@ public:
 
   [[nodiscard]] constexpr T* allocate(std::size_t n) {
     ++allocationCounter_;
-    return std::allocator_traits<std::allocator<T>>::allocate(*this, n);
+    T* res = std::allocator_traits<std::allocator<T>>::allocate(*this, n);
+    allocations_[res] = n;
+    return res;
   }
 
   constexpr void deallocate(T* p, std::size_t n) {
+    MPC_REQUIRE(eq, allocations_.at(p), n);
+    allocations_.erase(p);
     return std::allocator_traits<std::allocator<T>>::deallocate(*this, p, n);
   }
 
   template<class U, class... Args>
   constexpr void construct(U* p, Args&&... args) {
     ++placementCounter_;
+    constructed_.emplace(p);
     std::allocator_traits<std::allocator<T>>::template construct<U>(*this, p, std::forward<Args>(args)...);
   }
 
   template<class U>
   constexpr void destroy(U* p) {
+    MPC_REQUIRE(true, constructed_.contains(p));
+    constructed_.erase(p);
     std::allocator_traits<std::allocator<T>>::template destroy<U>(*this, p);
   }
 
