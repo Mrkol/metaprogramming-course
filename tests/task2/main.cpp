@@ -297,8 +297,8 @@ int main(int, char**)
     MPC_REQUIRE(eq, someFirst1[2], 20);
     MPC_REQUIRE(eq, someFirst2[2], 20);
     MPC_REQUIRE(eq, someFirst3[2], 20);
-    MPC_REQUIRE(eq, someFirst2.Size(), 3);
-    MPC_REQUIRE(eq, someFirst3.Size(), 3);
+    MPC_REQUIRE(eq, someFirst2.Size(), 3u);
+    MPC_REQUIRE(eq, someFirst3.Size(), 3u);
     static_assert(someFirst1.Size() == 3);
     static_assert(someFirst3.Stride() == 10);
   }
