@@ -42,7 +42,7 @@ void testImpl(std::index_sequence<Is...>)
   ([]()
   {
     std::unique_ptr<Animal> animal{new Ts()};
-    MPC_REQUIRE(eq, MyMapper::map(*animal), Is);
+    MPC_REQUIRE(eq, MyMapper::map(*animal).value(), Is);
   }(), ...);
 }
 
@@ -52,8 +52,19 @@ void test() {
   testImpl<Ts...>(std::make_index_sequence<sizeof...(Ts)>{});
 }
 
+void testStray() {
+  using MyMapper = PolymorphicMapper<Animal, int, Mapping<Animal, 1>, Mapping<Dog, 42>>;
+  std::unique_ptr<Animal> dog{new Dog()};
+  std::unique_ptr<Animal> cat{new Cat()};
+
+  MPC_REQUIRE(eq, MyMapper::map(*dog).value(), 42);
+  MPC_REQUIRE(eq, MyMapper::map(*cat).value(), 1);
+}
+
 int main() {
   // Simple tests
+  testStray();
+
   test
     < Korone
     , CavalierKingCharlesSpaniel
