@@ -33,7 +33,7 @@ fi
 sudents_repo_path=$(realpath solution)
 
 echo "Cloning course repo"
-git clone "git@github.com:E1pp/metaprogramming-course.git" course &> /dev/null
+git clone "git@github.com:Mrkol/metaprogramming-course.git" course &> /dev/null
 errc=$?
 if [ $errc -ne 0 ]
 then
