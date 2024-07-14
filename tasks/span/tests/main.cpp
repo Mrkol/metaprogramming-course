@@ -1,5 +1,5 @@
 #include <Span.hpp>
-#include <course/testing/assert.hpp>
+#include <testing/assert.hpp>
 
 #include <gtest/gtest.h>
 

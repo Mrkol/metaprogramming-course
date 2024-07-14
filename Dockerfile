@@ -9,7 +9,7 @@ ENV LC_ALL C.UTF-8
 
 
 RUN apk update && apk upgrade
-RUN apk add --no-cache git openssh build-base clang make cmake lld compiler-rt zsh
+RUN apk add --no-cache git openssh build-base clang make cmake lld compiler-rt zsh python3
 ENV CC=/usr/bin/clang
 ENV CXX=/usr/bin/clang++
 

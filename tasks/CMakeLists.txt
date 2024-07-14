@@ -48,5 +48,5 @@ message(STATUS "Building tests for ${TASK}")
 
 enable_testing()
 add_compile_options(-Wall -Wextra)
-include_directories("include" "${SOLUTION_PATH}")
+include_directories("../course" "${SOLUTION_PATH}")
 add_subdirectory("${TASK}/tests")
