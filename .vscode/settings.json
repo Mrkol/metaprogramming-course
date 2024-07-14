@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "/home/e1ppa/Desktop/meta_course/metaprogramming-course/tasks",
+    "cmake.sourceDirectory": "${workspaceFolder}/tasks",
     "cmake.generator": "Unix Makefiles",
     "cmake.configureArgs":
     [
