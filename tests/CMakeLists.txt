@@ -3,6 +3,10 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.20)
 project(METAPROGRAMMING)
 set(CMAKE_CXX_STANDARD 20)
 
+# deps
+# --------------------
+include(../third_party/CMakeLists.txt)
+# --------------------
 
 set(REPOSITORY_PATH "" CACHE STRING "Path to the root of solution repository")
 set(TASK "" CACHE STRING "Task id")
@@ -36,6 +40,7 @@ endif()
 
 function (make_test name)
     add_executable("${name}" ${ARGN})
+    target_link_libraries("${name}" gtest gtest_main gmock)
     add_test(NAME "${name}" COMMAND "${name}")
 endfunction()
 
