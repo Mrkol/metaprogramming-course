@@ -1,7 +1,9 @@
 #include <FixedString.hpp>
 #include <PolymorphicMapper.hpp>
 
-#include <commons/assert.hpp>
+#include <testing/assert.hpp>
+
+#include <gtest/gtest.h>
 
 #include <optional>
 #include <string_view>
@@ -80,7 +82,8 @@ void checkEmpty() {
   MPC_REQUIRE(nullopt, MyMapper::map(*dog));
 }
 
-int main() {
+TEST(MapperTest, AnotherJustWorks)
+{
   checkWithInts();
   checkWithStrings();
   checkEmpty();

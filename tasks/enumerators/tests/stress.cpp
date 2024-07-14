@@ -1,5 +1,7 @@
 #include <EnumeratorTraits.hpp>
 
+#include <gtest/gtest.h>
+
 enum class ScopedEnum {
     VALUE_N_512 = -512,
     VALUE_N_511 = -511,
@@ -4105,4 +4107,5 @@ static_assert(EnumeratorTraits<ScopedEnum>::nameAt(1023) == "VALUE_511");
 static_assert(EnumeratorTraits<ScopedEnum>::at(1024) == ScopedEnum::VALUE_512);
 static_assert(EnumeratorTraits<ScopedEnum>::nameAt(1024) == "VALUE_512");
 
-int main() {}
+TEST(EnumeratorTest, Stress)
+{ }

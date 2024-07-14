@@ -1,6 +1,8 @@
 #include <PolymorphicMapper.hpp>
 
-#include <commons/assert.hpp>
+#include <testing/assert.hpp>
+
+#include <gtest/gtest.h>
 
 #include <optional>
 #include <type_traits>
@@ -48,31 +50,32 @@ void testImpl(std::index_sequence<Is...>)
 
 
 template<class... Ts, size_t... Is>
-void test() {
+void runTest() {
   testImpl<Ts...>(std::make_index_sequence<sizeof...(Ts)>{});
 }
 
-int main() {
+TEST(MapperTest, JustWorks)
+{
   // Simple tests
-  test
+  runTest
     < Korone
     , CavalierKingCharlesSpaniel
     , Dog
     >();
 
-  test
+  runTest
     < Dog
     , Korone
     >();
 
-  test
+  runTest
     < Dog
     , CavalierKingCharlesSpaniel
     , Korone
     >();    
   
   // Evil tests
-  test
+  runTest
     < Cat
     , Okayu
     , Dog
@@ -88,7 +91,7 @@ int main() {
     , RaceHorse
     >();
 
-  test
+  runTest
     < Dog
     , RaceHorse
     , Okayu
@@ -104,7 +107,7 @@ int main() {
     , Fauna
     >();
     
-  test
+  runTest
     < StBernard
     , RaceHorse
     , Chihuahua
@@ -120,7 +123,7 @@ int main() {
     , Dog
     >();
   
-  test
+  runTest
     < AngryChihuahua
     , Korone
     , Chihuahua
@@ -136,7 +139,7 @@ int main() {
     , Cow
     >();
   
-  test
+  runTest
     < RaceHorse
     , SleepingChihuahua
     , Dog
@@ -152,7 +155,7 @@ int main() {
     , Cow
     >();
   
-  test
+  runTest
     < Cow
     , CavalierKingCharlesSpaniel
     , AngryChihuahua
@@ -168,7 +171,7 @@ int main() {
     , Dog
     >();
 
-  test
+  runTest
     < Chihuahua
     , Fauna
     , Korone
@@ -184,7 +187,7 @@ int main() {
     , SleepingChihuahua
     >();
   
-  test
+  runTest
     < Cow
     , Chihuahua
     , Korone

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include <gtest/gtest.h>
+
 
 #define MPC_CONCAT(a,b)  a##b
 #define MPC_ANNOTATION_LABEL(a) MPC_CONCAT(_annotion_, a)

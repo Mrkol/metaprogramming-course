@@ -1,6 +1,8 @@
 #pragma once
 
-#include "commons/RegularityWitness.hpp"
+#include "testing/RegularityWitness.hpp"
+
+#include <gtest/gtest.h>
 
 #include <vector>
 

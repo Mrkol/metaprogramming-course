@@ -1,5 +1,9 @@
 #include <EnumeratorTraits.hpp>
-#include <commons/assert.hpp>
+
+#include <testing/assert.hpp>
+
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <string_view>
 #include <utility>
@@ -62,7 +66,8 @@ enum class ScopedEmpty {}; // : int
 enum UnscopedEmpty : long long {};
 
 
-int main() {
+TEST(EnumeratorTest, JustWorks)
+{
     check<Shape>("Shape", se(Shape, POINT), se(Shape, SQUARE), se(Shape, CIRCLE), se(Shape, LINE));
     check<Fruit>("Fruit", ue(APPLE), ue(BANANA), ue(MELON));
     check<Vegetable>("Vegetable", ue(CUCUMBER), ue(TOMATO), ue(ONION));

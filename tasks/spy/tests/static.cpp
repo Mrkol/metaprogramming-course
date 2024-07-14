@@ -1,5 +1,8 @@
 #include <Spy.hpp>
-#include <commons/RegularityWitness.hpp>
+#include <testing/RegularityWitness.hpp>
+
+#include <gtest/gtest.h>
+
 #include <concepts>
 
 
@@ -67,7 +70,8 @@ void checkLoggerSafety() {
   static_assert(!ProperSpyLogger<EmptyLogger<bad_destructor_opt>, RegularityWitness<move_only_opt>>);
 }
 
-int main() {
+TEST(SpyTest, StaticTests)
+{
   checkConceptPreservation();
   checkLoggerSafety();
   return 0;

@@ -27,4 +27,6 @@ static_assert(Describe<Chonk>::Field<0>::has_annotation_class<SerialId<SizeT<4>>
 static_assert(Describe<Chonk>::Field<128>::has_annotation_class<SerialId<SizeT<6>>>);
 static_assert(Describe<Chonk>::Field<255>::has_annotation_template<SerialId>);
 
-int main() {}
+TEST(AnnotationsTest, Stress)
+{ }
+

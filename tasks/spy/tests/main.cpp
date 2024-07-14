@@ -1,5 +1,5 @@
-#include <commons/assert.hpp>
-#include <commons/RegularityWitness.hpp>
+#include <testing/assert.hpp>
+#include <testing/RegularityWitness.hpp>
 
 #include "mocks.hpp"
 
@@ -161,7 +161,8 @@ void testFunctionPointer() {
   s->x++;
 }
 
-int main() {
+TEST(SpyTest, BunchOfTests)
+{
   testCopyable(); // will likely trigger SBO
   testCopyable<256>(); // will likely not trigger SBO
 
