@@ -5,18 +5,16 @@ set(CMAKE_CXX_STANDARD 20)
 
 # deps
 # --------------------
-include(../third_party/CMakeLists.txt)
+include(../third_party/get_deps.cmake)
 # --------------------
 
 set(REPOSITORY_PATH "" CACHE STRING "Path to the root of solution repository")
-set(TASK "" CACHE STRING "Task id")
+set(TASK "" CACHE STRING "Task name")
 option(NOCOMPILE "Build `nocompile` tests in addition to normal ones; `nocompile` tests must not compile" OFF)
 
 
-if (TASK GREATER_EQUAL 0)
-  set(TASK_NAME "task${TASK}")
-else()
-  message(FATAL_ERROR "Wrong task id format. Use -DTASK option to specify task id.")
+if (TASK STREQUAL "")
+  message(FATAL_ERROR "Specify task name with -DTASK option.")
 endif()
 
 if (REPOSITORY_PATH STREQUAL "")
@@ -24,9 +22,9 @@ if (REPOSITORY_PATH STREQUAL "")
 else()
   cmake_path(SET REPOSITORY_PATH NORMALIZE ${REPOSITORY_PATH})
   if (IS_ABSOLUTE "${REPOSITORY_PATH}")
-    set(SOLUTION_PATH "${REPOSITORY_PATH}/${TASK_NAME}")
+    set(SOLUTION_PATH "${REPOSITORY_PATH}/${TASK}")
   else()
-    get_filename_component(SOLUTION_PATH "${CMAKE_CURRENT_SOURCE_DIR}/${REPOSITORY_PATH}/${TASK_NAME}" ABSOLUTE)
+    get_filename_component(SOLUTION_PATH "${CMAKE_CURRENT_SOURCE_DIR}/${REPOSITORY_PATH}/${TASK}" ABSOLUTE)
   endif()
 endif()
 
@@ -46,9 +44,9 @@ endfunction()
 
 # --------------------
 
-message(STATUS "Building tests for ${TASK_NAME}")
+message(STATUS "Building tests for ${TASK}")
 
 enable_testing()
 add_compile_options(-Wall -Wextra)
 include_directories("include" "${SOLUTION_PATH}")
-add_subdirectory("${TASK_NAME}")
+add_subdirectory("${TASK}/tests")

@@ -1,10 +1,10 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/tests",
+    "cmake.sourceDirectory": "/home/e1ppa/Desktop/meta_course/metaprogramming-course/tasks",
     "cmake.generator": "Unix Makefiles",
     "cmake.configureArgs":
     [
         "-DREPOSITORY_PATH=${workspaceFolder}/../solutions",
-        "-DTASK=1",
+        "-DTASK=annotations",
         "-DNOCOMPILE=OFF"
     ],
     "C_Cpp.default.cppStandard": "c++20"
