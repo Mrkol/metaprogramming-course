@@ -1,6 +1,9 @@
 #include <type_lists.hpp>
-#include <commons/metafunctions.hpp>
-#include <commons/assert.hpp>
+#include <testing/metafunctions.hpp>
+#include <testing/assert.hpp>
+
+#include <gtest/gtest.h>
+
 #include <cstdint>
 
 
@@ -415,7 +418,8 @@ void checkCornercases() {
   );
 }
 
-int main() {
+TEST(TypeListsTest, JustWorks)
+{
   checkSimpleOps();
   checkTransforms();
   checkReducers();

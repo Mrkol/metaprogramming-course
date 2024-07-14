@@ -146,7 +146,9 @@ void checkMultiple() {
   static_assert(Describe<S5>::Field<0>::has_annotation_template<SerialId>);
 }
 
-int main() {
+
+TEST(AnnotationsTest, JustWorks)
+{
   checkEmpty();
   checkReflection();
   checkLookup();

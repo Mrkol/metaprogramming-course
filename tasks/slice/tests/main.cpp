@@ -1,5 +1,7 @@
 #include <Slice.hpp>
-#include <commons/assert.hpp>
+#include <testing/assert.hpp>
+
+#include <gtest/gtest.h>
 
 #include <vector>
 #include <numeric>
@@ -75,7 +77,7 @@ MPC_STATIC_REQUIRE_TRUE((requires() {
     requires std::convertible_to<Slice<int, 42, 42>, Slice<int, std::dynamic_extent, dynamic_stride>>;
   }));
 
-int main(int, char**)
+TEST(SliceTest, JustWorks)
 {
   {
     std::vector<int> vec(42);

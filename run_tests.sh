@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 student_repo=$1
-task_id=$2
+task_name=$2
 
 
 final_score=0
@@ -14,8 +14,6 @@ function exit_with_code {
   echo "Final score: $final_score"
   exit 0
 }
-
-task_name="task${task_id}"
 
 git ls-remote --exit-code --heads $student_repo $task_name &> /dev/null
 errc=$?
@@ -42,12 +40,12 @@ then
   exit_with_code "Failed to clone course repository. Is the internet down?" 1
 fi
 
-pushd course/tests &> /dev/null
+pushd course/tasks &> /dev/null
 mkdir build
 pushd build &> /dev/null
 
 echo "Configuring the task build"
-cmake .. -DREPOSITORY_PATH=${sudents_repo_path} -DTASK=${task_id} -DNOCOMPILE=YES
+cmake .. -DREPOSITORY_PATH=${sudents_repo_path} -DTASK=${task_name} -DNOCOMPILE=YES
 
 while IFS=' ' read -A test_block
 do
@@ -94,7 +92,7 @@ do
     echo "SUCCESS! Test ${test} passed!"
   fi
   (( final_score += block_score ))
-done < "../${task_name}/tests"
+done < "../${task_name}/tests/tests"
 
 echo "Final score: ${final_score}"
 

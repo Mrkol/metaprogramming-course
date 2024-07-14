@@ -1,5 +1,7 @@
 #include <Span.hpp>
-#include <commons/assert.hpp>
+#include <testing/assert.hpp>
+
+#include <gtest/gtest.h>
 
 #include <vector>
 #include <numeric>
@@ -87,7 +89,7 @@ MPC_STATIC_REQUIRE_TRUE((requires(const Span<int> s1, const Span<int, 42> s2, si
     { s2.Back() } -> IsNonConstLvalRef;
   }));
 
-int main(int, char**)
+TEST(SpanTest, SpanTest)
 {
   {
     std::vector<int> vec(42);

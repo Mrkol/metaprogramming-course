@@ -1,5 +1,5 @@
-#include <commons/RegularityWitness.hpp>
-#include <commons/assert.hpp>
+#include <testing/RegularityWitness.hpp>
+#include <testing/assert.hpp>
 
 #include "mocks.hpp"
 
@@ -60,7 +60,7 @@ private:
 constexpr std::size_t operator "" _z ( unsigned long long n ) { return static_cast<std::size_t>(n); }
 
 template<std::size_t padding, bool reallocate>
-void test() {
+void runTest() {
   using mpc::detail::LoggerChecker;
   using mpc::detail::Counter;
   using mpc::detail::ValueLog;
@@ -119,10 +119,10 @@ void test() {
   MPC_REQUIRE(eq, Alloc::placementCount(), 4_z + perMoveAssignPlaceInc + perMoveConstructPlaceInc);
 }
 
-int main() {
-  test<0, false>();
-  test<0, true>();
-  test<4096, false>();
-  test<4096, true>();
-  return 0;
+TEST(SpyTest, BunchOfAllocTests)
+{
+  runTest<0, false>();
+  runTest<0, true>();
+  runTest<4096, false>();
+  runTest<4096, true>();
 }

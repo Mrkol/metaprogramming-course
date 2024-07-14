@@ -5,7 +5,7 @@
 
 [Условия задач](https://github.com/Mrkol/metaprogramming-course/tree/master/tasks)
 
-[Как тестировать задачи](https://github.com/Mrkol/metaprogramming-course/tree/master/tests)
+[Как тестировать задачи](https://github.com/Mrkol/metaprogramming-course/tree/master/tasks/testing.md)
 
 [Code style](https://github.com/Mrkol/metaprogramming-course/blob/master/codestyle.md)
 

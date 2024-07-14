@@ -1,10 +1,10 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/tests",
+    "cmake.sourceDirectory": "${workspaceFolder}/tasks",
     "cmake.generator": "Unix Makefiles",
     "cmake.configureArgs":
     [
         "-DREPOSITORY_PATH=${workspaceFolder}/../solutions",
-        "-DTASK=1",
+        "-DTASK=slice",
         "-DNOCOMPILE=OFF"
     ],
     "C_Cpp.default.cppStandard": "c++20"
