@@ -85,6 +85,6 @@ static_assert(
   >);
 
 
-int main() { 
+int main() {
   return 0;
 }

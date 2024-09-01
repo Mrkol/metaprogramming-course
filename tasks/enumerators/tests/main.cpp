@@ -77,6 +77,4 @@ TEST(EnumeratorTest, JustWorks)
 
     check<ScopedEmpty>("ScopedEmpty");
     check<UnscopedEmpty>("UnscopedEmpty");
-
-    return 0;
 }

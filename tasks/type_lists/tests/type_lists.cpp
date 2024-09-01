@@ -426,5 +426,4 @@ TEST(TypeListsTest, JustWorks)
   checkSublists();
   checkZips();
   checkCornercases();
-  return 0;
 }

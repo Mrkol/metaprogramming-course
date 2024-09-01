@@ -74,5 +74,4 @@ TEST(SpyTest, StaticTests)
 {
   checkConceptPreservation();
   checkLoggerSafety();
-  return 0;
 }

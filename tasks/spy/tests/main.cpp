@@ -173,6 +173,4 @@ TEST(SpyTest, BunchOfTests)
   testLvalueLogger<256>(); // will likely not trigger SBO
 
   testFunctionPointer();
-
-  return 0;
 }
