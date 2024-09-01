@@ -113,7 +113,7 @@ static_assert(!std::copyable<decltype(t)>);
 
 **Баллы:** 300 + 200
 
-Код пушьте в ветку `task5` и делайте pull request в `master`.
+Код пушьте в ветку `spy` и делайте pull request в `master`.
 
 Используйте всю мощь стандартной библиотеки, кроме `std::function` и `std::any`.
 

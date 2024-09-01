@@ -3,11 +3,11 @@
 
 [Презентации](https://drive.google.com/drive/folders/1JUSjHeZMyicojhJ7ebN3aStnU7VxqZEq?usp=sharing)
 
-[Условия задач](https://github.com/Mrkol/metaprogramming-course/tree/master/tasks)
+[Условия задач](/tasks)
 
-[Как тестировать задачи](https://github.com/Mrkol/metaprogramming-course/tree/master/tasks/testing.md)
+[Как тестировать задачи](/tasks/testing.md)
 
-[Code style](https://github.com/Mrkol/metaprogramming-course/blob/master/codestyle.md)
+[Code style](/codestyle.md)
 
 ## Темы
 Темы идут в произвольном порядке и не мапятся 1 к 1 на занятия. Более того, скорее всего осветить все из них за один семестр не удастся. Программа продумана не до конца и будет уточняться по ходу дела.

@@ -91,13 +91,13 @@ std::string_view dog_sound = *MyMapper::map(*some_animal);
 ASSERT_EQ(dog_sound, "Bark");
 ```
 
-Также посмотрите [тесты](https://github.com/Mrkol/metaprogramming-course/blob/master/tests/task4/main.cpp).
+Также посмотрите [тесты](/tests/mapper/main.cpp).
 
 ## Формальности
 
 **Баллы:** 200 + 100
 
-Код пушьте в ветку `task4` и делайте pull request в `master`.
+Код пушьте в ветку `mapper` и делайте pull request в `master`.
 
 Используйте всю мощь стандартной библиотеки, включая type traits и библиотеку концептов, если потребуется.
 
