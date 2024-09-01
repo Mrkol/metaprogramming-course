@@ -2,6 +2,9 @@
 #include <type_traits>
 #include "annotations.hpp"
 
+#include <gtest/gtest.h>
+
+
 #define MAKE_FIELD_NAME(c) MPC_CONCAT(field, c)
 
 #define MAKE_FIELD \

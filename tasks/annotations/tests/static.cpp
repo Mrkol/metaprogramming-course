@@ -2,6 +2,8 @@
 #include <type_traits>
 #include "annotations.hpp"
 
+#include <gtest/gtest.h>
+
 
 void checkEmpty() {
   using namespace mpc::annotations;
@@ -155,5 +157,4 @@ TEST(AnnotationsTest, JustWorks)
   checkMatching();
   checkUserDefined();
   checkMultiple();
-  return 0;
 }

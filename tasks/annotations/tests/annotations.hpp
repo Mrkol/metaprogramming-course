@@ -1,8 +1,6 @@
 #pragma once
 
-#include <cstdint>
-
-#include <gtest/gtest.h>
+#include <cstddef>
 
 
 #define MPC_CONCAT(a,b)  a##b
