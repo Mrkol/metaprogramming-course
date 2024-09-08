@@ -14,6 +14,8 @@
 
 Вспомните или почитайте о том, что такое [user-defined deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction).
 
+Некоторые операции над `std::span` могут быть некорректны. Например, конструирование `std::span<int, 1000>` от пустого `std::vector<int>`, потому что в нем нет тысячи элементов. Для проверки этого и других инвариантов в рантайме предлагается использовать макрос `MPC_VERIFY(cond, message)` из файла `"lib/assert.hpp"`.
+
 ## Задача
 
 Напишите свой собственный `std::span`.
