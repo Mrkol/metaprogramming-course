@@ -11,9 +11,10 @@ struct AssertException
 
 // Message is unused since its main purpose is stress relief.
 #define MPC_VERIFY(condition, message) \
-    [[unlikely]] if (!(condition)) { \
-        throw ::mpc::detail::AssertException{}; \
-    } \
-    static_assert(true);
+do { \
+  [[unlikely]] if (!(condition)) { \
+    throw ::mpc::detail::AssertException{}; \
+  } \
+while (false)
 
 } // namespace mpc

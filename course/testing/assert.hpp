@@ -1,8 +1,8 @@
 #pragma once
 
-#include "debug_trap.hpp"
+#include <lib/assert.hpp>
 
-#include "../lib/assert.hpp"
+#include "debug_trap.hpp"
 
 #include <gtest/gtest.h>
 
