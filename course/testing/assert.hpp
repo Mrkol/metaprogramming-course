@@ -1,12 +1,16 @@
 #pragma once
 
+#include <lib/assert.hpp>
+
+#include "debug_trap.hpp"
+
+#include <gtest/gtest.h>
+
 #include <cstdlib>
 #include <iostream>
 #include <concepts>
 #include <optional>
-
-#include "debug_trap.hpp"
-
+#include <string>
 
 namespace mpc::detail {
 
@@ -49,7 +53,14 @@ void assert_nullopt(const char* file, size_t line, const std::optional<T>& v) {
 // Most compilers are unable to properly explain why a
 // static_assert(requires { ... }); failed, so we have
 // to do a hack.
-#define MPC_STATIC_REQUIRE_TRUE(REQS)                       \
+#define EXPECT_STATIC_TRUE(REQS)                       \
 template<class T = void> requires (REQS)                    \
 static constexpr bool MPC_UNIQUE_NAME(Checker) = true; \
 static_assert(MPC_UNIQUE_NAME(Checker)<>);
+
+#define EXPECT_RUNTIME_OK(expr) \
+EXPECT_NO_THROW((expr));
+
+#define EXPECT_RUNTIME_FAIL(expr) \
+EXPECT_THROW((expr), ::mpc::detail::AssertException) \
+  << "Consider using MPC_VERIFY for a given sanity check test (See \"lib/assert.hpp\")\n";
