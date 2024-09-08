@@ -9,8 +9,15 @@ struct AssertException
 
 } // namespace detail
 
+#define MPC_VERIFY(condition) \
+do { \
+  [[unlikely]] if (!(condition)) { \
+    throw ::mpc::detail::AssertException{}; \
+  } \
+while (false)
+
 // Message is unused since its main purpose is stress relief.
-#define MPC_VERIFY(condition, message) \
+#define MPC_VERIFYF(condition, message) \
 do { \
   [[unlikely]] if (!(condition)) { \
     throw ::mpc::detail::AssertException{}; \
