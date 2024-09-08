@@ -14,7 +14,7 @@ do { \
   [[unlikely]] if (!(condition)) { \
     throw ::mpc::detail::AssertException{}; \
   } \
-while (false)
+} while (false)
 
 // Message is unused since its main purpose is stress relief.
 #define MPC_VERIFYF(condition, message) \
@@ -22,6 +22,6 @@ do { \
   [[unlikely]] if (!(condition)) { \
     throw ::mpc::detail::AssertException{}; \
   } \
-while (false)
+} while (false)
 
 } // namespace mpc
