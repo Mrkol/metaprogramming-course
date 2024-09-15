@@ -213,9 +213,10 @@ TEST(SpanTests, SimpleBoundaryChecks) {
   }));
 }
 
-TEST(SpanTests, SillyCornerCases) {
+TEST(SpanTests, Empty) {
   std::array<int, 0> arr = {};
-  Span sp1{arr};
+  std::vector<int> vec = {};
+  Span sp1{vec};
   Span<int, 0> sp2{arr};
 
   EXPECT_RUNTIME_FAIL(({
