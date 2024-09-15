@@ -212,3 +212,17 @@ TEST(SpanTests, SimpleBoundaryChecks) {
     spanEmpty[0];
   }));
 }
+
+TEST(SpanTests, SillyCornerCases) {
+  std::array<int, 0> arr = {};
+  Span sp1{arr};
+  Span<int, 0> sp2{arr};
+
+  EXPECT_RUNTIME_FAIL(({
+    sp1[0];
+  }));
+
+  EXPECT_RUNTIME_FAIL(({
+    sp2[0];
+  }));
+}
