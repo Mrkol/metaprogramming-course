@@ -370,3 +370,18 @@ TEST(SliceTests, RuntimeChecks) {
     }
   }));
 }
+
+TEST(SliceTests, EmptySlice) {
+  std::array<int, 0> arr = {};
+  std::vector<int> vec = {};
+  Slice sl1{vec};
+  Slice<int, 0, 1u> sl2{arr};
+
+  EXPECT_RUNTIME_FAIL(({
+    sl1[0];
+  }));
+
+  EXPECT_RUNTIME_FAIL(({
+    sl2[0];
+  }));
+}
