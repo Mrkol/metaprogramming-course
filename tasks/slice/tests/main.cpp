@@ -212,7 +212,7 @@ TEST(SliceTests, SliceOverArray) {
 TEST(SliceTests, ConstSlice) {
   std::vector<int> vec(42);
   std::iota(vec.begin(), vec.end(), 0);
-  const Slice slice(vec.begin(), vec.size() / 3, 3);
+  const Slice slice(vec.begin(), vec.size(), 3);
   EXPECT_EQ(vec.size() / 3, slice.Size());
   for (std::size_t i = 0; i < vec.size(); i += 3)
     EXPECT_EQ(slice[i/3], vec[i]);
@@ -257,19 +257,19 @@ TEST(SliceTests, TrickyStrides) {
   std::iota(arr.begin(), arr.end(), 0);
   Slice all = arr;
 
-  Slice<int, 21, 2> even1(arr.begin(), arr.size() / 2, 2);
+  Slice<int, 21, 2> even1(arr.begin(), arr.size(), 2);
   Slice even2 = all.Skip<2>();
   Slice even3 = all.Skip(2);
   EXPECT_EQ(even1, even2);
   EXPECT_EQ(even1, even3);
 
-  Slice<int, 5, 10> tenth1(arr.data(), 5, 10);
+  Slice<int, 5, 10> tenth1(arr.data(), arr.size(), 10);
   Slice tenth2 = all.Skip(10);
   Slice tenth3 = all.Skip<10>();
   EXPECT_EQ(tenth1, tenth2);
   EXPECT_EQ(tenth1, tenth3);
 
-  Slice<int, 3, 10> someLast1(arr.data() + 20, 3, 10);
+  Slice<int, 3, 10> someLast1(arr.data() + 20, arr.size() - 20, 10);
   Slice someLast2 = tenth1.DropFirst(2);
   Slice someLast3 = tenth1.Last(3);
   Slice someLast4 = tenth1.DropFirst<2>();
@@ -286,7 +286,7 @@ TEST(SliceTests, TrickyStrides) {
   EXPECT_EQ(someLast5[1], 30);
 
   std::vector<int> arr2(arr.begin(), arr.end());
-  Slice<int, 3, 10> someFirst1(arr2.data(), 3, 10);
+  Slice<int, 3, 10> someFirst1(arr2.data(), arr2.size() - 20, 10);
   Slice someFirst2 = Slice(arr2).Skip<2>().Skip(5).DropLast<2>();
   Slice someFirst3 = Slice(arr).Skip<5>().Skip<2>().First(3);
   EXPECT_TRUE(std::ranges::equal(someFirst1, someFirst2));
