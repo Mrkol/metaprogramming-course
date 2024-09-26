@@ -23,6 +23,9 @@ using MaxBySize = std::conditional_t<(sizeof(L) >= sizeof(R)), L, R>;
 template<class T>
 struct Fits { static constexpr bool Value = sizeof(T) <= 4; };
 
+template <type_lists::TypeList TL, class T>
+using FlippedCons = type_lists::Cons<T, TL>;
+
 
 
 void checkSimpleOps() {
@@ -221,6 +224,30 @@ void checkReducers() {
       , Nil
       >
     , char
+    >);
+
+  static_assert(
+    std::is_same_v
+    < ToTuple
+      < Foldl
+        < FlippedCons
+        , Nil
+        , FromTuple
+          < type_tuples::TTuple
+            < char
+            , short
+            , int
+            , long
+            >
+          >
+        >
+      >
+    , type_tuples::TTuple
+      < long
+      , int  
+      , short
+      , char
+      >
     >);
 }
 
