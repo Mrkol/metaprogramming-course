@@ -237,13 +237,13 @@ void checkReducers() {
             < char
             , short
             , int
-            , long
+            , float
             >
           >
         >
       >
     , type_tuples::TTuple
-      < long
+      < float
       , int  
       , short
       , char
