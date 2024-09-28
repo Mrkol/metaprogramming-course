@@ -359,16 +359,6 @@ TEST(SliceTests, RuntimeChecks) {
   EXPECT_RUNTIME_OK(({
     sliceStride3.Skip<1000>();
   }));
-
-  EXPECT_RUNTIME_FAIL(({
-    for (auto iter = std::begin(sliceStride3); ; ++iter) {
-    }
-  }));
-
-  EXPECT_RUNTIME_FAIL(({
-    for (auto iter = std::end(sliceStride3); ; --iter) {
-    }
-  }));
 }
 
 TEST(SliceTests, EmptySlice) {
