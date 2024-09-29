@@ -23,6 +23,9 @@ using MaxBySize = std::conditional_t<(sizeof(L) >= sizeof(R)), L, R>;
 template<class T>
 struct Fits { static constexpr bool Value = sizeof(T) <= 4; };
 
+template <type_lists::TypeList TL, class T>
+using FlippedCons = type_lists::Cons<T, TL>;
+
 
 
 void checkSimpleOps() {
@@ -189,6 +192,7 @@ void checkReducers() {
   using type_lists::FromTuple;
   using type_lists::Cycle;
   using type_lists::Take;
+  using type_lists::Cons;
   using type_lists::Nil;
 
   using type_lists::Scanl;
@@ -222,6 +226,66 @@ void checkReducers() {
       >
     , char
     >);
+
+  static_assert(
+    std::is_same_v
+    < ToTuple
+      < Foldl
+        < FlippedCons
+        , Nil
+        , FromTuple
+          < type_tuples::TTuple
+            < char
+            , short
+            , int
+            , float
+            >
+          >
+        >
+      >
+    , type_tuples::TTuple
+      < float
+      , int  
+      , short
+      , char
+      >
+    >);
+
+  using type_lists::Foldr;
+  static_assert(
+    std::same_as
+    < Foldr
+      < MaxBySize
+      , char
+      , FromTuple<TTuple<char, bool, short, char, int, short, std::int64_t, int>>
+      >
+    , std::int64_t
+    >);
+
+  static_assert(
+    std::is_same_v
+    < ToTuple
+      < Foldr
+        < Cons
+        , Nil
+        , FromTuple
+          < type_tuples::TTuple
+            < char
+            , short
+            , int
+            , float
+            >
+          >
+        >
+      >
+    , type_tuples::TTuple
+      < char
+      , short
+      , int
+      , float
+      >
+    >
+  );
 }
 
 void checkSublists() {
