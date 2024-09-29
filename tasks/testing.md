@@ -8,7 +8,7 @@
 ### Docker + VScode (официально поддерживаемый вариант)
 Это наиболее простой алгоритм заставить всё работать. Если вы хотите как-то поменять рабочее окружение, всё на вашей ответственности.
 
-1. Склонируйте локально этот репозиторий и [вашу копию](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) [репозитория шаблонов решений](https://github.com/Mrkol/metaprogramming-course-solutions-template) в одну папку. В итоге рядом должны лежать две папки с соответствующими репозиториями, `metaprogramming-course` и `metaprogramming-course-solutions`. Не меняйте их имена, иначе конфиги полетят
+1. Склонируйте локально этот репозиторий и ваш "форк" [репозитория шаблонов решений](https://github.com/Mrkol/metaprogramming-course-solutions-template) в одну папку. В итоге рядом должны лежать две папки с соответствующими репозиториями, `metaprogramming-course` и `metaprogramming-course-solutions`. Не меняйте их имена, иначе конфиги полетят
 2. Установите vscode и docker
 3. Откройте vscode, установите расширения "Docker" и "Dev Containers"
 4. Внутри vscode выполните команду (Ctrl-Shift-P) "Open Workspace In Container" и выберете файл `solutions.code-workspace` из корня репозитория курса. На всплывшем варнинге нажмите "continue"
@@ -21,7 +21,7 @@
 
 #### Окружение через пакетный менеджер nix
 1. Создайте/выберите папку, в которой будете вести всю работу по курсу.
-2. Склонируйте локально 1) этот репозиторий и 2) [вашу копию](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) [репозитория шаблонов решений](https://github.com/Mrkol/metaprogramming-course-solutions-template) в одну папку. В итоге рядом должны лежать две папки с соответствующими репозиториями, `metaprogramming-course` и `metaprogramming-course-solutions`. Не меняйте их имена, иначе конфиги полетят.
+2. Склонируйте локально 1) этот репозиторий и 2) ваш "форк" [репозитория шаблонов решений](https://github.com/Mrkol/metaprogramming-course-solutions-template) в одну папку. В итоге рядом должны лежать две папки с соответствующими репозиториями, `metaprogramming-course` и `metaprogramming-course-solutions`. Не меняйте их имена, иначе конфиги полетят.
 3. Положите в папку файл с названием `shell.nix`, содержащий следующий `nix`-код:
    ```nix
    let
