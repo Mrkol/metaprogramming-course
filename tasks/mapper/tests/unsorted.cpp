@@ -49,7 +49,7 @@ void testImpl(std::index_sequence<Is...>)
 }
 
 
-template<class... Ts, size_t... Is>
+template<class... Ts>
 void runTest() {
   testImpl<Ts...>(std::make_index_sequence<sizeof...(Ts)>{});
 }
